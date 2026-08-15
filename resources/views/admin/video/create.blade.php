@@ -11,7 +11,7 @@
         <h1 class="mb-0">Tambah Video</h1>
 
         <small class="text-muted">
-            Tambahkan video YouTube pertunjukan Barongan
+            Tambahkan video pertunjukan Barongan dari YouTube, Instagram, atau TikTok
         </small>
 
     </div>
@@ -58,7 +58,8 @@
 
     <form
         action="{{ route('video.store') }}"
-        method="POST">
+        method="POST"
+        enctype="multipart/form-data">
 
         @csrf
 
@@ -108,8 +109,46 @@ function getYoutubeId(url){
 }
 
 const youtubeInput = document.getElementById('youtube_url');
+const platformSelect = document.getElementById('platform');
+const urlHint = document.getElementById('url_hint');
+const youtubePreview = document.getElementById('youtube_preview');
+const thumbnailGroup = document.getElementById('thumbnail_group');
+
+const placeholders = {
+    youtube: 'https://youtu.be/xxxxx',
+    instagram: 'https://www.instagram.com/reel/xxxxx',
+    tiktok: 'https://www.tiktok.com/@namaakun/video/xxxxx',
+};
+
+const hints = {
+    youtube: 'Tempel link video YouTube (contoh: https://youtu.be/xxxxx)',
+    instagram: 'Tempel link Reel/Post Instagram (contoh: https://www.instagram.com/reel/xxxxx)',
+    tiktok: 'Tempel link video TikTok (contoh: https://www.tiktok.com/@namaakun/video/xxxxx)',
+};
+
+function syncPlatformFields(){
+
+    const platform = platformSelect.value;
+
+    youtubeInput.placeholder = placeholders[platform];
+    urlHint.textContent = hints[platform];
+
+    if (platform === 'youtube') {
+        thumbnailGroup.style.display = 'none';
+    } else {
+        thumbnailGroup.style.display = 'block';
+        youtubePreview.style.display = 'none';
+    }
+}
+
+platformSelect.addEventListener('change', syncPlatformFields);
+syncPlatformFields();
 
 youtubeInput.addEventListener('keyup', function(){
+
+    if (platformSelect.value !== 'youtube') {
+        return;
+    }
 
     let id = getYoutubeId(this.value);
 
@@ -128,6 +167,14 @@ youtubeInput.addEventListener('keyup', function(){
 
     document.getElementById('youtube_watch').href = this.value;
 
+});
+
+document.querySelectorAll('.custom-file-input').forEach(function (input) {
+    input.addEventListener('change', function () {
+        if (this.files[0]) {
+            this.nextElementSibling.innerText = this.files[0].name;
+        }
+    });
 });
 
 </script>

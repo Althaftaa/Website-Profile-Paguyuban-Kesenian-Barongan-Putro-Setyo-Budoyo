@@ -70,12 +70,31 @@
 
                 <div class="card h-100 shadow-sm">
 
-                    <img
-                        src="https://img.youtube.com/vi/{{ $video->youtube_id }}/hqdefault.jpg"
-                        class="card-img-top"
-                        style="height:220px;object-fit:cover;">
+                    @if($video->thumbnail_url)
+
+                        <img
+                            src="{{ $video->thumbnail_url }}"
+                            class="card-img-top"
+                            style="height:220px;object-fit:cover;">
+
+                    @else
+
+                        <div
+                            class="card-img-top d-flex align-items-center justify-content-center"
+                            style="height:220px;background:#3d2817;">
+
+                            <i class="{{ $video->platform_icon }} fa-3x text-white"></i>
+
+                        </div>
+
+                    @endif
 
                     <div class="card-body">
+
+                        <span class="badge badge-warning mb-2">
+                            <i class="{{ $video->platform_icon }} mr-1"></i>
+                            {{ $video->platform_label }}
+                        </span>
 
                         <h5>
 

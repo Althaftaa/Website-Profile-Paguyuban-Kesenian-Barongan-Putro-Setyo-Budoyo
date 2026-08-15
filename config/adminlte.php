@@ -371,7 +371,7 @@ return [
     |
     */
 
-    'plugins' => [
+    'plugins' => ['CustomTheme' => [ 'active' => true, 'files' => [ [ 'type' => 'css', 'asset' => true, 'location' => 'css/admin-custom.css', ], ], ],
         'Datatables' => [
             'active' => false,
             'files' => [

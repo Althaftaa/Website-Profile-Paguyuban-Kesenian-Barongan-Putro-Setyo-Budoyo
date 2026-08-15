@@ -11,7 +11,7 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $profile = new Profile();
+        $profile = Profile::first() ?? new Profile();
 
         return view('admin.profile.edit', compact('profile'));
     }
@@ -24,28 +24,14 @@ class ProfileController extends Controller
             'description'   => ['nullable', 'string'],
             'history'       => ['nullable', 'string'],
             'philosophy'    => ['nullable', 'string'],
-            'vision'        => ['nullable', 'string'],
-            'mission'       => ['nullable', 'string'],
-
-            'address'       => ['nullable', 'string'],
-            'phone'         => ['nullable', 'string', 'max:30'],
-            'email'         => ['nullable', 'email', 'max:255'],
-            'google_maps'   => ['nullable', 'string'],
-
-            'instagram'     => ['nullable', 'url', 'max:255'],
-            'facebook'      => ['nullable', 'url', 'max:255'],
-            'youtube'       => ['nullable', 'url', 'max:255'],
 
             'logo'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'cover_image'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ]);
 
 
-        $profile = new Profile();
-
-        if (!$profile) {
-            $profile = new Profile();
-        }
+        $profile = Profile::first() ?? new Profile();
 
 
         if ($request->hasFile('logo')) {
@@ -69,6 +55,18 @@ class ProfileController extends Controller
             $validated['profile_image'] = $request
                 ->file('profile_image')
                 ->store('profiles/images', 'public');
+        }
+
+
+        if ($request->hasFile('cover_image')) {
+
+            if ($profile->cover_image) {
+                Storage::disk('public')->delete($profile->cover_image);
+            }
+
+            $validated['cover_image'] = $request
+                ->file('cover_image')
+                ->store('profiles/cover', 'public');
         }
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
@@ -25,22 +26,15 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validated = $this->validateRequest($request);
 
-            'title' => 'required|max:255',
+        $validated = $this->handlePlatformFields($request, $validated);
 
-            'description' => 'nullable',
-
-            'youtube_url' => 'required|url',
-
-            'activity_date' => 'nullable|date',
-
-        ]);
-
-        $validated['youtube_id'] =
-            $this->extractYoutubeId(
-                $validated['youtube_url']
-            );
+        if ($request->hasFile('thumbnail')) {
+            $validated['thumbnail'] = $request
+                ->file('thumbnail')
+                ->store('videos/thumbnails', 'public');
+        }
 
         Video::create($validated);
 
@@ -62,22 +56,20 @@ class VideoController extends Controller
 
     public function update(Request $request, Video $video)
     {
-        $validated = $request->validate([
+        $validated = $this->validateRequest($request);
 
-            'title' => 'required|max:255',
+        $validated = $this->handlePlatformFields($request, $validated);
 
-            'description' => 'nullable',
+        if ($request->hasFile('thumbnail')) {
 
-            'youtube_url' => 'required|url',
+            if ($video->thumbnail) {
+                Storage::disk('public')->delete($video->thumbnail);
+            }
 
-            'activity_date' => 'nullable|date',
-
-        ]);
-
-        $validated['youtube_id'] =
-            $this->extractYoutubeId(
-                $validated['youtube_url']
-            );
+            $validated['thumbnail'] = $request
+                ->file('thumbnail')
+                ->store('videos/thumbnails', 'public');
+        }
 
         $video->update($validated);
 
@@ -91,12 +83,47 @@ class VideoController extends Controller
 
     public function destroy(Video $video)
     {
+        if ($video->thumbnail) {
+            Storage::disk('public')->delete($video->thumbnail);
+        }
+
         $video->delete();
 
         return back()->with(
             'success',
             'Video berhasil dihapus.'
         );
+    }
+
+    private function validateRequest(Request $request): array
+    {
+        return $request->validate([
+
+            'title' => 'required|max:255',
+
+            'platform' => 'required|in:youtube,instagram,tiktok',
+
+            'description' => 'nullable',
+
+            'youtube_url' => 'required|url',
+
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+            'activity_date' => 'nullable|date',
+
+        ]);
+    }
+
+    private function handlePlatformFields(Request $request, array $validated): array
+    {
+        // Ekstrak ID video HANYA kalau platformnya YouTube, supaya thumbnail
+        // otomatis bisa dibuat. Instagram & TikTok tidak punya konsep ini,
+        // thumbnail-nya pakai upload manual dari admin.
+        $validated['youtube_id'] = $validated['platform'] === 'youtube'
+            ? $this->extractYoutubeId($validated['youtube_url'])
+            : null;
+
+        return $validated;
     }
 
     private function extractYoutubeId($url)

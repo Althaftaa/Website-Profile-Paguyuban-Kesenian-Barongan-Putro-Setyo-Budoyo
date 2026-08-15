@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
@@ -17,6 +15,9 @@ class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
+     *
+     * Hanya bisa diakses oleh admin yang sudah login (lihat routes/auth.php),
+     * dipakai untuk membuat akun staf/admin tambahan.
      */
     public function create(): View
     {
@@ -36,16 +37,16 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        // Tidak auto-login sebagai user baru, karena aksi ini dilakukan oleh
+        // admin yang sedang login dan sesinya harus tetap sebagai admin tersebut.
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Akun staf baru berhasil dibuat.');
     }
 }

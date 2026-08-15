@@ -37,6 +37,12 @@
         </div>
     @endif
 
+    <div class="alert alert-info">
+        <i class="fas fa-circle-info mr-1"></i>
+        Informasi kontak, lokasi, dan media sosial sekarang dikelola di halaman
+        <a href="{{ route('contact.edit') }}"><strong>Kontak</strong></a>.
+    </div>
+
     <form action="{{ route('admin.profile.update') }}"
           method="POST"
           enctype="multipart/form-data">
@@ -120,169 +126,12 @@
         </div>
 
 
-        {{-- VISI MISI --}}
-        <div class="card card-outline card-warning">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-bullseye mr-2"></i>
-                    Visi & Misi
-                </h3>
-            </div>
-
-            <div class="card-body">
-
-                <div class="form-group">
-                    <label>Visi</label>
-
-                    <textarea
-                        name="vision"
-                        class="form-control"
-                        rows="4"
-                        placeholder="Tuliskan visi kelompok..."
-                    >{{ old('vision', $profile?->vision) }}</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Misi</label>
-
-                    <textarea
-                        name="mission"
-                        class="form-control"
-                        rows="6"
-                        placeholder="Tuliskan misi kelompok..."
-                    >{{ old('mission', $profile?->mission) }}</textarea>
-                </div>
-
-            </div>
-        </div>
-
-
-        {{-- KONTAK --}}
-        <div class="card card-outline card-warning">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-address-book mr-2"></i>
-                    Kontak & Lokasi
-                </h3>
-            </div>
-
-            <div class="card-body">
-
-                <div class="form-group">
-                    <label>Alamat</label>
-
-                    <textarea
-                        name="address"
-                        class="form-control"
-                        rows="3"
-                        placeholder="Alamat lengkap..."
-                    >{{ old('address', $profile?->address) }}</textarea>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>WhatsApp</label>
-
-                            <input
-                                type="text"
-                                name="phone"
-                                class="form-control"
-                                value="{{ old('phone', $profile?->phone) }}"
-                                placeholder="Contoh: 628123456789"
-                            >
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Email</label>
-
-                            <input
-                                type="email"
-                                name="email"
-                                class="form-control"
-                                value="{{ old('email', $profile?->email) }}"
-                                placeholder="contoh@email.com"
-                            >
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="form-group">
-                    <label>Google Maps</label>
-
-                    <textarea
-                        name="google_maps"
-                        class="form-control"
-                        rows="3"
-                        placeholder="Masukkan link atau embed Google Maps"
-                    >{{ old('google_maps', $profile?->google_maps) }}</textarea>
-                </div>
-
-            </div>
-        </div>
-
-
-        {{-- MEDIA SOSIAL --}}
-        <div class="card card-outline card-warning">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-share-alt mr-2"></i>
-                    Media Sosial
-                </h3>
-            </div>
-
-            <div class="card-body">
-
-                <div class="form-group">
-                    <label>Instagram</label>
-
-                    <input
-                        type="url"
-                        name="instagram"
-                        class="form-control"
-                        value="{{ old('instagram', $profile?->instagram) }}"
-                        placeholder="https://instagram.com/..."
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Facebook</label>
-
-                    <input
-                        type="url"
-                        name="facebook"
-                        class="form-control"
-                        value="{{ old('facebook', $profile?->facebook) }}"
-                        placeholder="https://facebook.com/..."
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>YouTube</label>
-
-                    <input
-                        type="url"
-                        name="youtube"
-                        class="form-control"
-                        value="{{ old('youtube', $profile?->youtube) }}"
-                        placeholder="https://youtube.com/..."
-                    >
-                </div>
-
-            </div>
-        </div>
-
-
         {{-- GAMBAR --}}
         <div class="card card-outline card-warning">
             <div class="card-header">
                 <h3 class="card-title">
                     <i class="fas fa-images mr-2"></i>
-                    Logo & Foto Profil
+                    Logo & Foto
                 </h3>
             </div>
 
@@ -290,7 +139,7 @@
 
                 <div class="row">
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Logo</label>
                         <img
@@ -331,9 +180,10 @@
                     </div>
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                             <div class="form-group">
                                 <label>Foto Profil Sanggar</label>
+                                <small class="d-block text-muted mb-2">Dipakai di section "Tentang Kami"</small>
                                 <img
                                     id="profile_image_preview"
                                     src=""
@@ -368,6 +218,48 @@
 
                                 <small class="form-text text-muted">
                                     JPG, JPEG, PNG, atau WEBP. Maksimal 5 MB.
+                                </small>
+                            </div>
+                        </div>
+
+                    <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Foto Sampul Beranda</label>
+                                <small class="d-block text-muted mb-2">Latar belakang hero di halaman utama</small>
+                                <img
+                                    id="cover_image_preview"
+                                    src=""
+                                    class="img-thumbnail mb-3"
+                                    style="max-height: 150px; display: none;"
+                                    alt="Preview Sampul"
+                                >
+                                @if($profile?->cover_image)
+                                    <div class="mb-3">
+                                        <img
+                                            src="{{ asset('storage/' . $profile->cover_image) }}"
+                                            alt="Foto Sampul Beranda"
+                                            class="img-thumbnail"
+                                            style="max-height: 150px;"
+                                        >
+                                    </div>
+                                @endif
+
+                                <div class="custom-file">
+                                    <input
+                                        type="file"
+                                        name="cover_image"
+                                        class="custom-file-input"
+                                        id="cover_image"
+                                        accept="image/*"
+                                    >
+
+                                    <label class="custom-file-label" for="cover_image">
+                                        Pilih foto sampul...
+                                    </label>
+                                </div>
+
+                                <small class="form-text text-muted">
+                                    JPG, JPEG, PNG, atau WEBP. Sebaiknya foto lanskap (horizontal). Maksimal 5 MB.
                                 </small>
                             </div>
                         </div>
