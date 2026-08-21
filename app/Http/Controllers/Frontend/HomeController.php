@@ -17,13 +17,9 @@ class HomeController extends Controller
         $profile = Profile::first();
 
         $galleries = Gallery::latest()
-            ->take(6)
             ->get();
 
-        $videos = Video::latest()
-            ->take(3)
-            ->get();
-
+        $videos = $videos = Video::latest()->get();
         $schedules = Schedule::orderBy('event_date')
             ->take(6)
             ->get();

@@ -1,74 +1,61 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Profile;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function edit()
+    /**
+     * Display the user's profile form.
+     */
+    public function edit(Request $request): View
     {
-        $profile = new Profile();
-
-        return view('admin.profile.edit', compact('profile'));
+        return view('profile.edit', [
+            'user' => $request->user(),
+        ]);
     }
 
-
-    public function update(Request $request)
+    /**
+     * Update the user's profile information.
+     */
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name'          => ['required', 'string', 'max:255'],
-            'description'   => ['nullable', 'string'],
-            'history'       => ['nullable', 'string'],
-            'philosophy'    => ['nullable', 'string'],
-            'vision'        => ['nullable', 'string'],
-            'mission'       => ['nullable', 'string'],
+        $request->user()->fill($request->validated());
 
-            'logo'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        return Redirect::route('profile.edit')
+            ->with('status', 'profile-updated');
+    }
+
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
         ]);
 
+        $user = $request->user();
 
-        $profile = new Profile();
+        Auth::logout();
 
-        if (!$profile) {
-            $profile = new Profile();
-        }
+        $user->delete();
 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        if ($request->hasFile('logo')) {
-
-            if ($profile->logo) {
-                Storage::disk('public')->delete($profile->logo);
-            }
-
-            $validated['logo'] = $request
-                ->file('logo')
-                ->store('profiles/logo', 'public');
-        }
-
-
-        if ($request->hasFile('profile_image')) {
-
-            if ($profile->profile_image) {
-                Storage::disk('public')->delete($profile->profile_image);
-            }
-
-            $validated['profile_image'] = $request
-                ->file('profile_image')
-                ->store('profiles/images', 'public');
-        }
-
-
-        $profile->fill($validated);
-        $profile->save();
-
-
-        return redirect()
-            ->route('admin.profile.edit')
-            ->with('success', 'Profil sanggar berhasil disimpan.');
+        return Redirect::to('/');
     }
 }

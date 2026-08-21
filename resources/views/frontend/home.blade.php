@@ -240,12 +240,57 @@ use Illuminate\Support\Str;
 
     /* GALLERY */
 
-    .gallery-photo {
+    .gallery-card {
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        height: 100%;
+        box-shadow: 0 8px 22px rgba(61,40,23,0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .gallery-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(61,40,23,0.14);
+    }
+
+    .gallery-card-image {
         width: 100%;
-        height: 220px;
+        height: 230px;
         object-fit: cover;
-        border-radius: 14px;
-        box-shadow: 0 8px 20px rgba(61,40,23,0.08);
+        display: block;
+    }
+
+    .gallery-card-body {
+        padding: 20px;
+    }
+
+    .gallery-card-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 19px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    .gallery-card-date {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--gold-dark);
+        font-size: 12.5px;
+        margin-bottom: 12px;
+    }
+
+    .gallery-card-date i {
+        font-size: 12px;
+    }
+
+    .gallery-card-description {
+        color: var(--text-muted);
+        font-size: 13.5px;
+        line-height: 1.7;
+        margin-bottom: 0;
     }
 
     .video-card {
@@ -666,7 +711,7 @@ use Illuminate\Support\Str;
         <p class="hero-eyebrow">Selamat Datang di</p>
 
         <h1>
-            Kelompok Seni Barongan
+            Paguyuban Seni Barongan
             <span class="hero-title">{{ $profile?->name ?? 'Putro Setyo Budoyo' }}</span>
         </h1>
 
@@ -787,13 +832,74 @@ use Illuminate\Support\Str;
             <div class="row mb-5">
 
                 @foreach($galleries as $gallery)
+
                     <div class="col-lg-4 col-md-6 mb-4">
-                        <img
-                            src="{{ asset('storage/'.$gallery->image) }}"
-                            class="gallery-photo"
-                            alt="{{ $gallery->title }}"
-                        >
+
+                        <div class="gallery-card">
+
+                            {{-- FOTO --}}
+
+                            <img
+                                src="{{ asset('storage/'.$gallery->image) }}"
+                                class="gallery-card-image"
+                                alt="{{ $gallery->title }}"
+                            >
+
+                            {{-- INFORMASI FOTO --}}
+
+                            <div class="gallery-card-body">
+
+                                {{-- JUDUL --}}
+
+                                <h5 class="gallery-card-title">
+                                    {{ $gallery->title }}
+                                </h5>
+
+
+                                {{-- TANGGAL --}}
+
+                                @if($gallery->activity_date)
+
+                                    <div class="gallery-card-date">
+
+                                        <i class="far fa-calendar-alt"></i>
+
+                                        <span>
+                                            {{ $gallery->activity_date->format('d F Y') }}
+                                        </span>
+
+                                    </div>
+
+                                @endif
+
+
+                                {{-- DESKRIPSI --}}
+
+                                @if($gallery->description)
+
+                                    <p class="gallery-card-description">
+
+                                        {{ Str::limit($gallery->description, 120) }}
+
+                                    </p>
+
+                                @else
+
+                                    <p class="gallery-card-description">
+
+                                        Dokumentasi kegiatan dan pertunjukan
+                                        Kelompok Seni Barongan Putro Setyo Budoyo.
+
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+                        </div>
+
                     </div>
+
                 @endforeach
 
             </div>
@@ -801,8 +907,13 @@ use Illuminate\Support\Str;
         @else
 
             <div class="text-center py-4 mb-5">
+
                 <i class="fas fa-images fa-2x text-muted mb-2"></i>
-                <p class="text-muted mb-0">Galeri foto masih kosong</p>
+
+                <p class="text-muted mb-0">
+                    Galeri foto masih kosong
+                </p>
+
             </div>
 
         @endif
@@ -877,7 +988,6 @@ use Illuminate\Support\Str;
                             <span><i class="fas fa-map-marker-alt me-1"></i>{{ $schedule->location }}</span>
                         </div>
                     </div>
-                    <a href="#{{ $schedule->id }}" class="btn-detail">Detail</a>
                 </div>
             @endforeach
 

@@ -5,9 +5,9 @@
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h1 class="mb-0">Profil Sanggar</h1>
+            <h1 class="mb-0">Profil Paguyuban</h1>
             <small class="text-muted">
-                Kelola informasi utama Kelompok Seni Barongan Putro Setyo Budoyo
+                Kelola informasi utama Paguyuban Seni Barongan Putro Setyo Budoyo
             </small>
         </div>
     </div>
@@ -36,12 +36,6 @@
             </ul>
         </div>
     @endif
-
-    <div class="alert alert-info">
-        <i class="fas fa-circle-info mr-1"></i>
-        Informasi kontak, lokasi, dan media sosial sekarang dikelola di halaman
-        <a href="{{ route('contact.edit') }}"><strong>Kontak</strong></a>.
-    </div>
 
     <form action="{{ route('admin.profile.update') }}"
           method="POST"

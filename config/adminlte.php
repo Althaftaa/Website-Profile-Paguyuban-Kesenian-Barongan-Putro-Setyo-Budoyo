@@ -306,7 +306,7 @@ return [
             'icon' => 'fas fa-fw fa-home',
         ],
         [
-            'text' => 'Profil Sanggar',
+            'text' => 'Profil Paguyuban',
             'route' => 'admin.profile.edit',
             'icon' => 'fas fa-fw fa-landmark',
         ],
@@ -371,7 +371,8 @@ return [
     |
     */
 
-    'plugins' => ['CustomTheme' => [ 'active' => true, 'files' => [ [ 'type' => 'css', 'asset' => true, 'location' => 'css/admin-custom.css', ], ], ],
+    'plugins' => [
+        'CustomTheme' => ['active' => true, 'files' => [['type' => 'css', 'asset' => true, 'location' => 'css/admin-custom.css',],],],
         'Datatables' => [
             'active' => false,
             'files' => [

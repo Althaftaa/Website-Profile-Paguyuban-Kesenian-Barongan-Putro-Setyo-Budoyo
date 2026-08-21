@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
+    /**
+     * Menampilkan daftar video.
+     */
     public function index()
     {
         $videos = Video::latest()->get();
@@ -19,21 +22,41 @@ class VideoController extends Controller
         );
     }
 
+    /**
+     * Menampilkan halaman tambah video.
+     */
     public function create()
     {
         return view('admin.video.create');
     }
 
+    /**
+     * Menyimpan video baru.
+     */
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
 
-        $validated = $this->handlePlatformFields($request, $validated);
+        /*
+         * Menentukan field berdasarkan platform.
+         * YouTube menggunakan thumbnail otomatis.
+         * Instagram dan TikTok menggunakan thumbnail upload manual.
+         */
+        $validated = $this->handlePlatformFields(
+            $request,
+            $validated
+        );
 
+        /*
+         * Simpan thumbnail manual jika ada.
+         */
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $request
                 ->file('thumbnail')
-                ->store('videos/thumbnails', 'public');
+                ->store(
+                    'videos/thumbnails',
+                    'public'
+                );
         }
 
         Video::create($validated);
@@ -46,6 +69,9 @@ class VideoController extends Controller
             );
     }
 
+    /**
+     * Menampilkan halaman edit video.
+     */
     public function edit(Video $video)
     {
         return view(
@@ -54,21 +80,41 @@ class VideoController extends Controller
         );
     }
 
-    public function update(Request $request, Video $video)
-    {
+    /**
+     * Memperbarui video.
+     */
+    public function update(
+        Request $request,
+        Video $video
+    ) {
         $validated = $this->validateRequest($request);
 
-        $validated = $this->handlePlatformFields($request, $validated);
+        /*
+         * Menentukan youtube_id berdasarkan platform.
+         */
+        $validated = $this->handlePlatformFields(
+            $request,
+            $validated
+        );
 
+        /*
+         * Jika admin mengupload thumbnail baru,
+         * hapus thumbnail lama terlebih dahulu.
+         */
         if ($request->hasFile('thumbnail')) {
 
             if ($video->thumbnail) {
-                Storage::disk('public')->delete($video->thumbnail);
+                Storage::disk('public')->delete(
+                    $video->thumbnail
+                );
             }
 
             $validated['thumbnail'] = $request
                 ->file('thumbnail')
-                ->store('videos/thumbnails', 'public');
+                ->store(
+                    'videos/thumbnails',
+                    'public'
+                );
         }
 
         $video->update($validated);
@@ -81,10 +127,19 @@ class VideoController extends Controller
             );
     }
 
+    /**
+     * Menghapus video.
+     */
     public function destroy(Video $video)
     {
+        /*
+         * Hapus file thumbnail dari storage
+         * jika video memiliki thumbnail manual.
+         */
         if ($video->thumbnail) {
-            Storage::disk('public')->delete($video->thumbnail);
+            Storage::disk('public')->delete(
+                $video->thumbnail
+            );
         }
 
         $video->delete();
@@ -95,41 +150,87 @@ class VideoController extends Controller
         );
     }
 
-    private function validateRequest(Request $request): array
-    {
+    /**
+     * Validasi data video.
+     */
+    private function validateRequest(
+        Request $request
+    ): array {
         return $request->validate([
 
-            'title' => 'required|max:255',
+            'title' => [
+                'required',
+                'max:255'
+            ],
 
-            'platform' => 'required|in:youtube,instagram,tiktok',
+            'platform' => [
+                'required',
+                'in:youtube,instagram,tiktok'
+            ],
 
-            'description' => 'nullable',
+            'description' => [
+                'nullable'
+            ],
 
-            'youtube_url' => 'required|url',
+            'youtube_url' => [
+                'required',
+                'url'
+            ],
 
-            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'thumbnail' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048'
+            ],
 
-            'activity_date' => 'nullable|date',
+            'activity_date' => [
+                'nullable',
+                'date'
+            ],
 
         ]);
     }
 
-    private function handlePlatformFields(Request $request, array $validated): array
-    {
-        // Ekstrak ID video HANYA kalau platformnya YouTube, supaya thumbnail
-        // otomatis bisa dibuat. Instagram & TikTok tidak punya konsep ini,
-        // thumbnail-nya pakai upload manual dari admin.
-        $validated['youtube_id'] = $validated['platform'] === 'youtube'
-            ? $this->extractYoutubeId($validated['youtube_url'])
-            : null;
+    /**
+     * Menentukan data tambahan berdasarkan platform.
+     */
+    private function handlePlatformFields(
+        Request $request,
+        array $validated
+    ): array {
+
+        /*
+         * Jika YouTube:
+         * ambil ID video untuk membuat thumbnail otomatis.
+         *
+         * Jika Instagram/TikTok:
+         * youtube_id dibuat null karena thumbnail
+         * menggunakan upload manual.
+         */
+        if ($validated['platform'] === 'youtube') {
+
+            $validated['youtube_id'] =
+                $this->extractYoutubeId(
+                    $validated['youtube_url']
+                );
+        } else {
+
+            $validated['youtube_id'] = null;
+        }
 
         return $validated;
     }
 
-    private function extractYoutubeId($url)
-    {
+    /**
+     * Mengambil ID video dari URL YouTube.
+     */
+    private function extractYoutubeId(
+        string $url
+    ): ?string {
+
         preg_match(
-            '/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^\&\?\/]+)/',
+            '/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?\/]+)/',
             $url,
             $matches
         );

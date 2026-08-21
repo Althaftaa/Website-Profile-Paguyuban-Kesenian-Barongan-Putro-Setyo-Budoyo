@@ -6,74 +6,103 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    protected $fillable = [
-
-        'title',
-
-        'platform',
-
-        'description',
-
-        'youtube_url',
-
-        'youtube_id',
-
-        'thumbnail',
-
-        'activity_date',
-
-    ];
-
-    protected $casts = [
-
-        'activity_date' => 'date',
-
-    ];
-
     /**
-     * URL/tautan sumber video, dari platform manapun (YouTube, Instagram, TikTok).
-     * Nama kolom di database tetap "youtube_url" untuk alasan historis,
-     * tapi sekarang menampung link dari platform apapun.
+     * Kolom yang boleh diisi.
      */
-    public function getVideoUrlAttribute(): ?string
-    {
-        return $this->youtube_url;
-    }
+    protected $fillable = [
+        'title',
+        'platform',
+        'description',
+        'youtube_url',
+        'youtube_id',
+        'thumbnail',
+        'activity_date',
+    ];
 
     /**
-     * URL thumbnail untuk ditampilkan di galeri/grid.
-     * - YouTube: otomatis dari ID video (tidak perlu upload manual).
-     * - Instagram / TikTok: pakai thumbnail yang diupload admin,
-     *   kalau belum ada, kembalikan null (tampilkan ikon platform sebagai gantinya).
+     * Casting data.
+     */
+    protected $casts = [
+        'activity_date' => 'date',
+    ];
+
+    /**
+     * URL thumbnail video.
+     *
+     * YouTube:
+     * menggunakan thumbnail otomatis dari YouTube.
+     *
+     * Instagram/TikTok:
+     * menggunakan thumbnail yang di-upload admin.
      */
     public function getThumbnailUrlAttribute(): ?string
     {
-        if ($this->platform === 'youtube' && $this->youtube_id) {
-            return "https://img.youtube.com/vi/{$this->youtube_id}/hqdefault.jpg";
+        /*
+         * Thumbnail otomatis YouTube
+         */
+        if (
+            $this->platform === 'youtube'
+            && $this->youtube_id
+        ) {
+            return 'https://img.youtube.com/vi/'
+                . $this->youtube_id
+                . '/hqdefault.jpg';
         }
 
+        /*
+         * Thumbnail manual Instagram / TikTok
+         */
         if ($this->thumbnail) {
-            return asset('storage/' . $this->thumbnail);
+            return asset(
+                'storage/' . ltrim($this->thumbnail, '/')
+            );
         }
 
+        /*
+         * Tidak ada thumbnail
+         */
         return null;
     }
 
+    /**
+     * Icon berdasarkan platform.
+     */
     public function getPlatformIconAttribute(): string
     {
         return match ($this->platform) {
-            'instagram' => 'fab fa-instagram',
-            'tiktok'    => 'fab fa-tiktok',
-            default     => 'fab fa-youtube',
+
+            'youtube' =>
+            'fab fa-youtube',
+
+            'instagram' =>
+            'fab fa-instagram',
+
+            'tiktok' =>
+            'fab fa-tiktok',
+
+            default =>
+            'fas fa-video',
         };
     }
 
+    /**
+     * Nama platform.
+     */
     public function getPlatformLabelAttribute(): string
     {
         return match ($this->platform) {
-            'instagram' => 'Instagram',
-            'tiktok'    => 'TikTok',
-            default     => 'YouTube',
+
+            'youtube' =>
+            'YouTube',
+
+            'instagram' =>
+            'Instagram',
+
+            'tiktok' =>
+            'TikTok',
+
+            default =>
+            'Video',
         };
     }
 }
