@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
@@ -48,9 +49,25 @@ class GalleryController extends Controller
             ],
         ]);
 
-        $validated['image'] = $request
-            ->file('image')
-            ->store('galleries', 'public');
+        // Folder penyimpanan gambar publik
+        $destination = public_path('storage/galleries');
+
+        // Pastikan folder tersedia
+        if (!is_dir($destination)) {
+            mkdir($destination, 0755, true);
+        }
+
+        // Ambil file upload
+        $file = $request->file('image');
+
+        // Buat nama file unik
+        $filename = $file->hashName();
+
+        // Simpan langsung ke public/storage/galleries
+        $file->move($destination, $filename);
+
+        // Simpan path ke database
+        $validated['image'] = 'galleries/' . $filename;
 
         Gallery::create($validated);
 
@@ -61,10 +78,12 @@ class GalleryController extends Controller
                 'Foto berhasil ditambahkan ke galeri.'
             );
     }
+
     public function edit(Gallery $gallery)
     {
         return view('admin.gallery.edit', compact('gallery'));
     }
+
     public function update(Request $request, Gallery $gallery)
     {
         $validated = $request->validate([
@@ -76,25 +95,56 @@ class GalleryController extends Controller
 
         if ($request->hasFile('image')) {
 
-            // Hapus foto lama
+            // Hapus foto lama dari public/storage
             if ($gallery->image) {
+                $publicFile = public_path('storage/' . $gallery->image);
+
+                if (File::exists($publicFile)) {
+                    File::delete($publicFile);
+                }
+
+                // Hapus juga dari storage/app/public jika masih ada
                 Storage::disk('public')->delete($gallery->image);
             }
 
-            $validated['image'] = $request
-                ->file('image')
-                ->store('galleries', 'public');
+            // Folder penyimpanan
+            $destination = public_path('storage/galleries');
+
+            if (!is_dir($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            // Upload foto baru
+            $file = $request->file('image');
+            $filename = $file->hashName();
+
+            $file->move($destination, $filename);
+
+            $validated['image'] = 'galleries/' . $filename;
         }
 
         $gallery->update($validated);
 
         return redirect()
             ->route('gallery.index')
-            ->with('success', 'Foto berhasil diperbarui.');
+            ->with(
+                'success',
+                'Foto berhasil diperbarui.'
+            );
     }
+
     public function destroy(Gallery $gallery)
     {
         if ($gallery->image) {
+
+            // Hapus file dari public/storage
+            $publicFile = public_path('storage/' . $gallery->image);
+
+            if (File::exists($publicFile)) {
+                File::delete($publicFile);
+            }
+
+            // Hapus juga dari storage/app/public jika masih ada
             Storage::disk('public')->delete($gallery->image);
         }
 
@@ -102,6 +152,9 @@ class GalleryController extends Controller
 
         return redirect()
             ->route('gallery.index')
-            ->with('success', 'Foto berhasil dihapus.');
+            ->with(
+                'success',
+                'Foto berhasil dihapus.'
+            );
     }
 }
