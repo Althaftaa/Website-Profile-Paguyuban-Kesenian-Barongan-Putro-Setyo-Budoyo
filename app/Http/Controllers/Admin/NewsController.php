@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class NewsController extends Controller
@@ -33,9 +33,25 @@ class NewsController extends Controller
 
         if ($request->hasFile('thumbnail')) {
 
-            $validated['thumbnail'] = $request
-                ->file('thumbnail')
-                ->store('news', 'public');
+            // Folder penyimpanan thumbnail berita
+            $destination = public_path('storage/news');
+
+            // Pastikan folder tersedia
+            if (!is_dir($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            // Ambil file
+            $file = $request->file('thumbnail');
+
+            // Buat nama file unik
+            $filename = $file->hashName();
+
+            // Simpan langsung ke public/storage/news
+            $file->move($destination, $filename);
+
+            // Simpan path ke database
+            $validated['thumbnail'] = 'news/' . $filename;
         }
 
         $validated['slug'] = Str::slug($validated['title']);
@@ -63,14 +79,31 @@ class NewsController extends Controller
 
         if ($request->hasFile('thumbnail')) {
 
+            // Hapus thumbnail lama
             if ($news->thumbnail) {
 
-                Storage::disk('public')->delete($news->thumbnail);
+                $oldFile = public_path('storage/' . $news->thumbnail);
+
+                if (File::exists($oldFile)) {
+                    File::delete($oldFile);
+                }
             }
 
-            $validated['thumbnail'] = $request
-                ->file('thumbnail')
-                ->store('news', 'public');
+            // Folder penyimpanan
+            $destination = public_path('storage/news');
+
+            if (!is_dir($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            // Upload thumbnail baru
+            $file = $request->file('thumbnail');
+            $filename = $file->hashName();
+
+            $file->move($destination, $filename);
+
+            // Simpan path ke database
+            $validated['thumbnail'] = 'news/' . $filename;
         }
 
         $validated['slug'] = Str::slug($validated['title']);
@@ -86,7 +119,11 @@ class NewsController extends Controller
     {
         if ($news->thumbnail) {
 
-            Storage::disk('public')->delete($news->thumbnail);
+            $file = public_path('storage/' . $news->thumbnail);
+
+            if (File::exists($file)) {
+                File::delete($file);
+            }
         }
 
         $news->delete();
