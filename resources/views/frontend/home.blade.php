@@ -500,25 +500,51 @@ use Illuminate\Support\Str;
 
     .social-row {
         display: flex;
-        gap: 12px;
+        gap: 35px;
         margin-top: 26px;
+        flex-wrap: wrap;
     }
 
-    .social-row a {
-        width: 38px;
-        height: 38px;
+    .social-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-width: 110px;
+        color: var(--text-dark);
+    }
+
+    .social-icon {
+        width: 58px;
+        height: 58px;
         border-radius: 50%;
         border: 1.5px solid var(--gold);
         color: var(--gold-dark);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: 22px;
+        margin-bottom: 12px;
+        transition: all 0.25s ease;
     }
 
-    .social-row a:hover {
+    .social-item:hover .social-icon {
         background: var(--gold);
         color: #ffffff;
+        transform: translateY(-3px);
+    }
+
+    .social-platform {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--gold-dark);
+        margin-bottom: 4px;
+    }
+
+    .social-username {
+        font-size: 12px;
+        color: var(--text-muted);
+        white-space: nowrap;
     }
 
     .map-card {
@@ -1103,26 +1129,106 @@ use Illuminate\Support\Str;
                 @endif
 
                 @if($contact?->instagram || $contact?->facebook || $contact?->youtube || $contact?->tiktok)
-                    <p class="subheading mt-4 mb-2" style="font-size:14px;">Ikuti Kami</p>
+
+                    <p class="subheading mt-4 mb-3" style="font-size:18px;">
+                        Ikuti Kami
+                    </p>
+
                     <div class="social-row">
 
+                        {{-- INSTAGRAM --}}
                         @if($contact?->instagram)
-                            <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                            <a
+                                href="{{ $contact->instagram }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="social-item"
+                            >
+                                <span class="social-icon">
+                                    <i class="fab fa-instagram"></i>
+                                </span>
+
+                                <span class="social-platform">
+                                    Instagram
+                                </span>
+
+                                <span class="social-username">
+                                    @putrosetyobudoyo
+                                </span>
+                            </a>
                         @endif
 
-                        @if($contact?->facebook)
-                            <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                        @endif
 
+                        {{-- YOUTUBE --}}
                         @if($contact?->youtube)
-                            <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                            <a
+                                href="{{ $contact->youtube }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="social-item"
+                            >
+                                <span class="social-icon">
+                                    <i class="fab fa-youtube"></i>
+                                </span>
+
+                                <span class="social-platform">
+                                    YouTube
+                                </span>
+
+                                <span class="social-username">
+                                    Putro Setyo Budoyo
+                                </span>
+                            </a>
                         @endif
 
+
+                        {{-- TIKTOK --}}
                         @if($contact?->tiktok)
-                            <a href="{{ $contact->tiktok }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+                            <a
+                                href="{{ $contact->tiktok }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="social-item"
+                            >
+                                <span class="social-icon">
+                                    <i class="fab fa-tiktok"></i>
+                                </span>
+
+                                <span class="social-platform">
+                                    TikTok
+                                </span>
+
+                                <span class="social-username">
+                                    @putrosetyobudoyo
+                                </span>
+                            </a>
+                        @endif
+
+
+                        {{-- FACEBOOK --}}
+                        @if($contact?->facebook)
+                            <a
+                                href="{{ $contact->facebook }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="social-item"
+                            >
+                                <span class="social-icon">
+                                    <i class="fab fa-facebook-f"></i>
+                                </span>
+
+                                <span class="social-platform">
+                                    Facebook
+                                </span>
+
+                                <span class="social-username">
+                                    Putro Setyo Budoyo
+                                </span>
+                            </a>
                         @endif
 
                     </div>
+
                 @endif
 
             </div>
