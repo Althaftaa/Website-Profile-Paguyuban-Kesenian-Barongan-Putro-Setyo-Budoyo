@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Video;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class VideoController extends Controller
 {
@@ -39,8 +39,6 @@ class VideoController extends Controller
 
         /*
          * Menentukan field berdasarkan platform.
-         * YouTube menggunakan thumbnail otomatis.
-         * Instagram dan TikTok menggunakan thumbnail upload manual.
          */
         $validated = $this->handlePlatformFields(
             $request,
@@ -51,12 +49,20 @@ class VideoController extends Controller
          * Simpan thumbnail manual jika ada.
          */
         if ($request->hasFile('thumbnail')) {
-            $validated['thumbnail'] = $request
-                ->file('thumbnail')
-                ->store(
-                    'videos/thumbnails',
-                    'public'
-                );
+
+            $destination = public_path('storage/videos/thumbnails');
+
+            if (!is_dir($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            $file = $request->file('thumbnail');
+            $filename = $file->hashName();
+
+            $file->move($destination, $filename);
+
+            $validated['thumbnail'] =
+                'videos/thumbnails/' . $filename;
         }
 
         Video::create($validated);
@@ -104,17 +110,30 @@ class VideoController extends Controller
         if ($request->hasFile('thumbnail')) {
 
             if ($video->thumbnail) {
-                Storage::disk('public')->delete(
-                    $video->thumbnail
+
+                $oldFile = public_path(
+                    'storage/' . $video->thumbnail
                 );
+
+                if (File::exists($oldFile)) {
+                    File::delete($oldFile);
+                }
             }
 
-            $validated['thumbnail'] = $request
-                ->file('thumbnail')
-                ->store(
-                    'videos/thumbnails',
-                    'public'
-                );
+            $destination =
+                public_path('storage/videos/thumbnails');
+
+            if (!is_dir($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            $file = $request->file('thumbnail');
+            $filename = $file->hashName();
+
+            $file->move($destination, $filename);
+
+            $validated['thumbnail'] =
+                'videos/thumbnails/' . $filename;
         }
 
         $video->update($validated);
@@ -133,13 +152,17 @@ class VideoController extends Controller
     public function destroy(Video $video)
     {
         /*
-         * Hapus file thumbnail dari storage
-         * jika video memiliki thumbnail manual.
+         * Hapus thumbnail manual jika ada.
          */
         if ($video->thumbnail) {
-            Storage::disk('public')->delete(
-                $video->thumbnail
+
+            $file = public_path(
+                'storage/' . $video->thumbnail
             );
+
+            if (File::exists($file)) {
+                File::delete($file);
+            }
         }
 
         $video->delete();
@@ -157,7 +180,6 @@ class VideoController extends Controller
         Request $request
     ): array {
         return $request->validate([
-
             'title' => [
                 'required',
                 'max:255'
@@ -188,7 +210,6 @@ class VideoController extends Controller
                 'nullable',
                 'date'
             ],
-
         ]);
     }
 
@@ -199,14 +220,9 @@ class VideoController extends Controller
         Request $request,
         array $validated
     ): array {
-
         /*
          * Jika YouTube:
          * ambil ID video untuk membuat thumbnail otomatis.
-         *
-         * Jika Instagram/TikTok:
-         * youtube_id dibuat null karena thumbnail
-         * menggunakan upload manual.
          */
         if ($validated['platform'] === 'youtube') {
 
@@ -228,7 +244,6 @@ class VideoController extends Controller
     private function extractYoutubeId(
         string $url
     ): ?string {
-
         preg_match(
             '/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?\/]+)/',
             $url,
