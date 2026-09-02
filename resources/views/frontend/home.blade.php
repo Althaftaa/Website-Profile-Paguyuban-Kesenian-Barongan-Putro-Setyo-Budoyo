@@ -634,7 +634,311 @@ use Illuminate\Support\Str;
         border-color: #dcd6c8;
         margin: 36px 0 20px;
     }
+    /* =========================================
+    PAKET PEMENTASAN
+    ========================================= */
 
+    .package-section {
+        background: #f4f0e7;
+    }
+
+    .package-card {
+        position: relative;
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 32px;
+        height: 100%;
+        border: 1px solid #eee8dc;
+        box-shadow: 0 10px 30px rgba(61, 40, 23, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .package-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(61, 40, 23, 0.13);
+    }
+
+    .package-card.premium {
+        border: 2px solid var(--gold);
+    }
+
+    .package-badge {
+        position: absolute;
+        top: -13px;
+        right: 25px;
+        background: var(--gold);
+        color: #ffffff;
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .package-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 25px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    .package-description {
+        color: var(--text-muted);
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+
+    .package-price-label {
+        color: var(--text-muted);
+        font-size: 12px;
+        margin-bottom: 3px;
+    }
+
+    .package-price {
+        color: var(--gold-dark);
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .package-price small {
+        font-family: 'Poppins', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--text-muted);
+    }
+
+    .package-facilities {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 25px;
+    }
+
+    .package-facilities li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 1px solid #f0ece4;
+        font-size: 13.5px;
+        color: var(--text-muted);
+    }
+
+    .package-facilities li:last-child {
+        border-bottom: none;
+    }
+
+    .package-facilities .check {
+        color: var(--gold-dark);
+        font-size: 13px;
+        margin-top: 2px;
+    }
+
+    .package-facilities .cross {
+        color: #aaa;
+        font-size: 13px;
+        margin-top: 2px;
+    }
+
+    .package-select-btn {
+        width: 100%;
+        border: 1.5px solid var(--gold);
+        background: transparent;
+        color: var(--gold-dark);
+        border-radius: 30px;
+        padding: 11px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+    }
+
+    .package-select-btn:hover,
+    .package-select-btn.active {
+        background: var(--gold);
+        color: #ffffff;
+    }
+
+
+    /* CALCULATOR */
+
+    .package-calculator {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 32px;
+        margin-top: 45px;
+        box-shadow: 0 10px 30px rgba(61, 40, 23, 0.08);
+    }
+
+    .calculator-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 5px;
+    }
+
+    .calculator-subtitle {
+        color: var(--text-muted);
+        font-size: 13px;
+        margin-bottom: 25px;
+    }
+
+    .package-option {
+        border: 1.5px solid #e5dfd3;
+        border-radius: 14px;
+        padding: 16px 18px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .package-option:hover {
+        border-color: var(--gold);
+    }
+
+    .package-option.selected {
+        border-color: var(--gold);
+        background: #fcf8ef;
+    }
+
+    .package-option input {
+        accent-color: var(--gold);
+        margin-right: 8px;
+    }
+
+    .package-option-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text-dark);
+    }
+
+    .package-option-price {
+        float: right;
+        color: var(--gold-dark);
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .addon-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1.5px solid #e5dfd3;
+        border-radius: 14px;
+        padding: 15px 18px;
+        margin-top: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .addon-option:hover {
+        border-color: var(--gold);
+    }
+
+    .addon-option.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .addon-option input {
+        width: 17px;
+        height: 17px;
+        accent-color: var(--gold);
+    }
+
+    .addon-text strong {
+        display: block;
+        font-size: 13.5px;
+        color: var(--text-dark);
+    }
+
+    .addon-text span {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    .order-summary {
+        background: #f8f4ec;
+        border-radius: 16px;
+        padding: 22px;
+        margin-top: 25px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+    }
+
+    .summary-row.total {
+        border-top: 1px solid #ddd5c7;
+        padding-top: 15px;
+        margin-top: 14px;
+        margin-bottom: 0;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .summary-row.total span:last-child {
+        color: var(--gold-dark);
+    }
+
+    .package-order-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        background: var(--gold);
+        color: #ffffff;
+        border: none;
+        border-radius: 30px;
+        padding: 12px 20px;
+        margin-top: 18px;
+        font-size: 13.5px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+    }
+
+    .package-order-btn:hover {
+        background: var(--gold-dark);
+        color: #ffffff;
+    }
+
+    .package-note {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 11.5px;
+        margin-top: 18px;
+        margin-bottom: 0;
+    }
+
+    @media (max-width: 767px) {
+
+        .package-card {
+            padding: 25px;
+        }
+
+        .package-calculator {
+            padding: 22px;
+        }
+
+        .package-price {
+            font-size: 26px;
+        }
+
+        .package-option-price {
+            float: none;
+            display: block;
+            margin-top: 4px;
+        }
+    }
 </style>
 
 @endpush
@@ -685,7 +989,9 @@ use Illuminate\Support\Str;
                 <li class="nav-item">
                     <a class="nav-link" href="#galeri">Galeri</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="#paket">Paket</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#jadwal">Pertunjukan</a>
                 </li>
@@ -993,6 +1299,369 @@ use Illuminate\Support\Str;
 
 </section>
 
+{{-- PAKET PEMENTASAN --}}
+
+<section id="paket" class="section package-section">
+
+    <div class="container">
+
+        <h2 class="section-eyebrow">
+            Paket Pementasan
+        </h2>
+
+        <p class="section-sub">
+            Pilih paket pementasan Barongan Putro Setyo Budoyo
+            sesuai kebutuhan acara Anda.
+        </p>
+
+
+        {{-- PERBANDINGAN PAKET --}}
+
+        <div class="row g-4">
+
+            {{-- CLASSIC --}}
+
+            <div class="col-lg-6">
+
+                <div class="package-card">
+
+                    <h3 class="package-name">
+                        Classic
+                    </h3>
+
+                    <p class="package-description">
+                        Pilihan paket pementasan dengan fasilitas
+                        utama untuk memeriahkan acara Anda.
+                    </p>
+
+                    <div class="package-price-label">
+                        Mulai dari
+                    </div>
+
+                    <div class="package-price">
+                        Rp7.000.000
+                        <small>/ pementasan</small>
+                    </div>
+
+                    <ul class="package-facilities">
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Honor pemain dan kru</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Transportasi</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Konsumsi</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Sewa sound system</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-times cross"></i>
+                            <span>Bintang tamu belum termasuk</span>
+                        </li>
+
+                    </ul>
+
+                    <button
+                        type="button"
+                        class="package-select-btn"
+                        onclick="selectPackage('classic')"
+                    >
+                        Pilih Paket Classic
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            {{-- PREMIUM --}}
+
+            <div class="col-lg-6">
+
+                <div class="package-card premium">
+
+                    <span class="package-badge">
+                        REKOMENDASI
+                    </span>
+
+                    <h3 class="package-name">
+                        Premium
+                    </h3>
+
+                    <p class="package-description">
+                        Paket lebih lengkap untuk memberikan pengalaman
+                        pementasan yang lebih maksimal.
+                    </p>
+
+                    <div class="package-price-label">
+                        Mulai dari
+                    </div>
+
+                    <div class="package-price">
+                        Rp9.000.000
+                        <small>/ pementasan</small>
+                    </div>
+
+                    <ul class="package-facilities">
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Honor pemain dan kru</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Transportasi</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Konsumsi</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check check"></i>
+                            <span>Sewa sound system</span>
+                        </li>
+
+                        <li>
+                            <i class="fas fa-plus check"></i>
+                            <span>Bisa menambahkan bintang tamu</span>
+                        </li>
+
+                    </ul>
+
+                    <button
+                        type="button"
+                        class="package-select-btn"
+                        onclick="selectPackage('premium')"
+                    >
+                        Pilih Paket Premium
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- KALKULATOR PESANAN --}}
+
+        <div class="package-calculator">
+
+            <h3 class="calculator-title">
+                Tentukan Paket Pementasan
+            </h3>
+
+            <p class="calculator-subtitle">
+                Pilih paket dan tambahan bintang tamu untuk melihat
+                estimasi total harga secara langsung.
+            </p>
+
+
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+
+                    <h6 class="subheading mb-3">
+                        Pilih Paket
+                    </h6>
+
+
+                    {{-- CLASSIC --}}
+
+                    <label
+                        class="package-option"
+                        id="option-classic"
+                    >
+
+                        <input
+                            type="radio"
+                            name="selected_package"
+                            value="classic"
+                            onchange="updatePackageCalculator()"
+                            checked
+                        >
+
+                        <span class="package-option-title">
+                            Classic
+                        </span>
+
+                        <span class="package-option-price">
+                            Rp7.000.000
+                        </span>
+
+                    </label>
+
+
+                    {{-- PREMIUM --}}
+
+                    <label
+                        class="package-option"
+                        id="option-premium"
+                    >
+
+                        <input
+                            type="radio"
+                            name="selected_package"
+                            value="premium"
+                            onchange="updatePackageCalculator()"
+                        >
+
+                        <span class="package-option-title">
+                            Premium
+                        </span>
+
+                        <span class="package-option-price">
+                            Rp9.000.000
+                        </span>
+
+                    </label>
+
+
+                    <h6 class="subheading mt-4 mb-2">
+                        Tambahan
+                    </h6>
+
+
+                    {{-- ADD ON BINTANG TAMU --}}
+
+                    <label
+                        class="addon-option"
+                        id="addon-star"
+                    >
+
+                        <input
+                            type="checkbox"
+                            id="starAddon"
+                            onchange="updatePackageCalculator()"
+                        >
+
+                        <span class="addon-text">
+
+                            <strong>
+                                Tambahkan Bintang Tamu
+                            </strong>
+
+                            <span>
+                                Khusus paket Premium · +Rp2.500.000
+                            </span>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                {{-- RINGKASAN --}}
+
+                <div class="col-lg-6">
+
+                    <h6 class="subheading mb-3">
+                        Ringkasan Pesanan
+                    </h6>
+
+                    <div class="order-summary">
+
+                        <div class="summary-row">
+
+                            <span>
+                                Paket Terpilih
+                            </span>
+
+                            <strong id="summaryPackage">
+                                Classic
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Harga Paket
+                            </span>
+
+                            <span id="summaryPackagePrice">
+                                Rp7.000.000
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Bintang Tamu
+                            </span>
+
+                            <span id="summaryAddon">
+                                Rp0
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-row total">
+
+                            <span>
+                                TOTAL
+                            </span>
+
+                            <span id="summaryTotal">
+                                Rp7.000.000
+                            </span>
+
+                        </div>
+
+
+                        @if($contact?->phone)
+
+                            <a
+                                href="#"
+                                id="packageWhatsappButton"
+                                class="package-order-btn"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+
+                                <i class="fab fa-whatsapp"></i>
+
+                                Pesan Paket Ini
+
+                            </a>
+
+                        @endif
+
+                    </div>
+
+                    <p class="package-note">
+                        Harga dapat berbeda untuk lokasi luar kota
+                        atau permintaan khusus.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 {{-- JADWAL PERTUNJUKAN --}}
 
@@ -1318,5 +1987,227 @@ use Illuminate\Support\Str;
     </div>
 
 </footer>
+
+@push('scripts')
+
+<script>
+
+    const packagePrices = {
+        classic: 7000000,
+        premium: 9000000
+    };
+
+    const starAddonPrice = 2500000;
+
+
+    function formatRupiah(number) {
+
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(number);
+
+    }
+
+
+    function selectPackage(packageName) {
+
+        const radio = document.querySelector(
+            'input[name="selected_package"][value="' +
+            packageName +
+            '"]'
+        );
+
+        if (radio) {
+
+            radio.checked = true;
+
+            updatePackageCalculator();
+
+            document
+                .getElementById('paket')
+                .scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+        }
+
+    }
+
+
+    function updatePackageCalculator() {
+
+        const selectedPackage =
+            document.querySelector(
+                'input[name="selected_package"]:checked'
+            ).value;
+
+
+        const packagePrice =
+            packagePrices[selectedPackage];
+
+
+        const starAddon =
+            document.getElementById('starAddon');
+
+
+        /*
+         * Bintang tamu hanya tersedia
+         * untuk paket Premium.
+         */
+
+        if (selectedPackage === 'classic') {
+
+            starAddon.checked = false;
+
+            starAddon.disabled = true;
+
+            document
+                .getElementById('addon-star')
+                .classList.add('disabled');
+
+        } else {
+
+            starAddon.disabled = false;
+
+            document
+                .getElementById('addon-star')
+                .classList.remove('disabled');
+
+        }
+
+
+        const addonPrice =
+            (
+                selectedPackage === 'premium'
+                && starAddon.checked
+            )
+                ? starAddonPrice
+                : 0;
+
+
+        const total =
+            packagePrice + addonPrice;
+
+
+        /*
+         * Update ringkasan
+         */
+
+        document.getElementById(
+            'summaryPackage'
+        ).textContent =
+            selectedPackage === 'premium'
+                ? 'Premium'
+                : 'Classic';
+
+
+        document.getElementById(
+            'summaryPackagePrice'
+        ).textContent =
+            formatRupiah(packagePrice);
+
+
+        document.getElementById(
+            'summaryAddon'
+        ).textContent =
+            formatRupiah(addonPrice);
+
+
+        document.getElementById(
+            'summaryTotal'
+        ).textContent =
+            formatRupiah(total);
+
+
+        /*
+         * Update tombol WhatsApp
+         */
+
+        const whatsappButton =
+            document.getElementById(
+                'packageWhatsappButton'
+            );
+
+
+        if (whatsappButton) {
+
+            const phone =
+                "{{ preg_replace('/[^0-9]/', '', $contact?->phone ?? '') }}";
+
+
+            const packageLabel =
+                selectedPackage === 'premium'
+                    ? 'Premium'
+                    : 'Classic';
+
+
+            const addonLabel =
+                addonPrice > 0
+                    ? 'Ya (+Rp2.500.000)'
+                    : 'Tidak';
+
+
+            const message =
+                "Halo Putro Setyo Budoyo,%0A%0A" +
+                "Saya tertarik untuk memesan paket pementasan.%0A%0A" +
+                "Paket: " + packageLabel + "%0A" +
+                "Harga Paket: " +
+                formatRupiah(packagePrice) + "%0A" +
+                "Bintang Tamu: " + addonLabel + "%0A" +
+                "Total Estimasi: " +
+                formatRupiah(total) +
+                "%0A%0A" +
+                "Mohon informasi lebih lanjut mengenai jadwal dan pemesanan.";
+
+
+            whatsappButton.href =
+                "https://wa.me/" +
+                phone +
+                "?text=" +
+                message;
+
+        }
+
+
+        /*
+         * Highlight pilihan paket
+         */
+
+        document
+            .getElementById('option-classic')
+            .classList.toggle(
+                'selected',
+                selectedPackage === 'classic'
+            );
+
+
+        document
+            .getElementById('option-premium')
+            .classList.toggle(
+                'selected',
+                selectedPackage === 'premium'
+            );
+
+    }
+
+
+    /*
+     * Jalankan ketika halaman pertama kali dibuka
+     */
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        function () {
+
+            updatePackageCalculator();
+
+        }
+    );
+
+</script>
+
+@endpush
 
 @endsection
