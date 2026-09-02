@@ -1459,7 +1459,7 @@ use Illuminate\Support\Str;
 
         {{-- KALKULATOR PESANAN --}}
 
-        <div class="package-calculator">
+        <div class="package-calculator" id="paket-pementasan">
 
             <h3 class="calculator-title">
                 Tentukan Paket Pementasan
@@ -1498,11 +1498,6 @@ use Illuminate\Support\Str;
                         <span class="package-option-title">
                             Classic
                         </span>
-
-                        <span class="package-option-price">
-                            Rp7.000.000
-                        </span>
-
                     </label>
 
 
@@ -1523,11 +1518,6 @@ use Illuminate\Support\Str;
                         <span class="package-option-title">
                             Premium
                         </span>
-
-                        <span class="package-option-price">
-                            Rp9.000.000
-                        </span>
-
                     </label>
 
 
@@ -2026,7 +2016,7 @@ use Illuminate\Support\Str;
             updatePackageCalculator();
 
             document
-                .getElementById('paket')
+                .getElementById('paket-pementasan')
                 .scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -2191,7 +2181,6 @@ use Illuminate\Support\Str;
             );
 
     }
-
 
     /*
      * Jalankan ketika halaman pertama kali dibuka
