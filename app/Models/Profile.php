@@ -15,6 +15,8 @@ class Profile extends Model
         'mission',
         'logo',
         'profile_image',
+        'hero_media_type',
+        'hero_video',
         'address',
         'phone',
         'email',

@@ -126,13 +126,30 @@ use Illuminate\Support\Str;
         background-size: cover;
         background-position: center;
     }
-
-    .hero::before {
-        content: "";
+    .hero-video {
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(20,12,6,0.55) 0%, rgba(20,12,6,0.75) 100%);
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        z-index: 0;
     }
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        180deg,
+        rgba(20,12,6,0.45) 0%,
+        rgba(20,12,6,0.72) 100%
+    );
+
+    z-index: 1;
+}
 
     .hero .container {
         position: relative;
@@ -1031,12 +1048,49 @@ use Illuminate\Support\Str;
 <section
     id="beranda"
     class="hero"
-    @if($profile?->cover_image)
-        style="background-image: url('{{ asset('storage/' . $profile->cover_image) }}');"
-    @elseif($profile?->profile_image)
-        style="background-image: url('{{ asset('storage/' . $profile->profile_image) }}');"
+
+    @if(($profile?->hero_media_type ?? 'image') !== 'video')
+
+        @if($profile?->cover_image)
+
+            style="background-image: url('{{ asset('storage/' . $profile->cover_image) }}');"
+
+        @elseif($profile?->profile_image)
+
+            style="background-image: url('{{ asset('storage/' . $profile->profile_image) }}');"
+
+        @endif
+
     @endif
 >
+
+    {{-- VIDEO HERO --}}
+    @if(
+        ($profile?->hero_media_type ?? 'image') === 'video'
+        && $profile?->hero_video
+    )
+
+        <video
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+
+            @if($profile?->cover_image)
+                poster="{{ asset('storage/' . $profile->cover_image) }}"
+            @endif
+        >
+
+            <source
+                src="{{ asset('storage/' . $profile->hero_video) }}"
+                type="video/mp4"
+            >
+
+        </video>
+
+    @endif
 
     <div class="container">
 

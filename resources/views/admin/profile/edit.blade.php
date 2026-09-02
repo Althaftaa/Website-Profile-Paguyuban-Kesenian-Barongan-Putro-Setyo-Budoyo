@@ -216,45 +216,206 @@
                             </div>
                         </div>
 
-                    <div class="col-md-4">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label>Foto Sampul Beranda</label>
-                                <small class="d-block text-muted mb-2">Latar belakang hero di halaman utama</small>
-                                <img
-                                    id="cover_image_preview"
-                                    src=""
-                                    class="img-thumbnail mb-3"
-                                    style="max-height: 150px; display: none;"
-                                    alt="Preview Sampul"
-                                >
-                                @if($profile?->cover_image)
-                                    <div class="mb-3">
-                                        <img
-                                            src="{{ asset('storage/' . $profile->cover_image) }}"
-                                            alt="Foto Sampul Beranda"
-                                            class="img-thumbnail"
-                                            style="max-height: 150px;"
+
+                                <label>Media Sampul Beranda</label>
+
+                                <small class="d-block text-muted mb-3">
+                                    Media yang digunakan sebagai background Hero di halaman utama.
+                                </small>
+
+
+                                {{-- PILIH MEDIA --}}
+                                <div class="mb-3">
+
+                                    <div class="custom-control custom-radio">
+                                        <input
+                                            type="radio"
+                                            id="hero_image"
+                                            name="hero_media_type"
+                                            value="image"
+                                            class="custom-control-input"
+                                            {{ old('hero_media_type', $profile?->hero_media_type ?? 'image') === 'image' ? 'checked' : '' }}
                                         >
+
+                                        <label
+                                            class="custom-control-label"
+                                            for="hero_image"
+                                        >
+                                            <i class="fas fa-image mr-1"></i>
+                                            Foto
+                                        </label>
                                     </div>
-                                @endif
 
-                                <div class="custom-file">
-                                    <input
-                                        type="file"
-                                        name="cover_image"
-                                        class="custom-file-input"
-                                        id="cover_image"
-                                        accept="image/*"
-                                    >
 
-                                    <label class="custom-file-label" for="cover_image">
-                                        Pilih foto sampul...
-                                    </label>
+                                    <div class="custom-control custom-radio mt-2">
+                                        <input
+                                            type="radio"
+                                            id="hero_video"
+                                            name="hero_media_type"
+                                            value="video"
+                                            class="custom-control-input"
+                                            {{ old('hero_media_type', $profile?->hero_media_type ?? 'image') === 'video' ? 'checked' : '' }}
+                                        >
+
+                                        <label
+                                            class="custom-control-label"
+                                            for="hero_video"
+                                        >
+                                            <i class="fas fa-video mr-1"></i>
+                                            Video
+                                        </label>
+                                    </div>
+
                                 </div>
 
-                                <small class="form-text text-muted">
-                                    JPG, JPEG, PNG, atau WEBP. Sebaiknya foto lanskap (horizontal). Maksimal 5 MB.
-                                </small>
+
+                                {{-- FOTO --}}
+                                <div
+                                    id="hero-image-section"
+                                    style="
+                                        {{ old('hero_media_type', $profile?->hero_media_type ?? 'image') === 'video'
+                                            ? 'display:none;'
+                                            : ''
+                                        }}
+                                    "
+                                >
+
+                                    <div class="mb-3">
+
+                                        @if($profile?->cover_image)
+
+                                            <img
+                                                id="cover_image_current"
+                                                src="{{ asset('storage/' . $profile->cover_image) }}"
+                                                alt="Foto Sampul Beranda"
+                                                class="img-thumbnail"
+                                                style="width:100%; max-height:180px; object-fit:cover;"
+                                            >
+
+                                        @endif
+
+                                    </div>
+
+
+                                    <div class="custom-file">
+
+                                        <input
+                                            type="file"
+                                            name="cover_image"
+                                            class="custom-file-input"
+                                            id="cover_image"
+                                            accept="image/jpeg,image/png,image/webp"
+                                        >
+
+                                        <label
+                                            class="custom-file-label"
+                                            for="cover_image"
+                                        >
+                                            Pilih foto sampul...
+                                        </label>
+
+                                    </div>
+
+                                    <small class="form-text text-muted">
+                                        JPG, JPEG, PNG, atau WEBP.
+                                        Sebaiknya foto lanskap (horizontal).
+                                        Maksimal 5 MB.
+                                    </small>
+
+                                    <img
+                                        id="cover_image_preview"
+                                        src=""
+                                        class="img-thumbnail mt-3"
+                                        style="width:100%; max-height:180px; object-fit:cover; display:none;"
+                                        alt="Preview Foto Sampul"
+                                    >
+
+                                </div>
+
+
+                                {{-- VIDEO --}}
+                                <div
+                                    id="hero-video-section"
+                                    style="
+                                        {{ old('hero_media_type', $profile?->hero_media_type ?? 'image') === 'video'
+                                            ? ''
+                                            : 'display:none;'
+                                        }}
+                                    "
+                                >
+
+                                    @if($profile?->hero_video)
+
+                                        <div class="mb-3">
+
+                                            <video
+                                                id="hero_video_current"
+                                                controls
+                                                muted
+                                                preload="metadata"
+                                                style="
+                                                    width:100%;
+                                                    max-height:180px;
+                                                    object-fit:cover;
+                                                    border-radius:6px;
+                                                    background:#000;
+                                                "
+                                            >
+                                                <source
+                                                    src="{{ asset('storage/' . $profile->hero_video) }}"
+                                                >
+                                            </video>
+
+                                        </div>
+
+                                    @endif
+
+
+                                    <div class="custom-file">
+
+                                        <input
+                                            type="file"
+                                            name="hero_video"
+                                            class="custom-file-input"
+                                            id="hero_video_file"
+                                            accept="video/mp4,video/webm"
+                                        >
+
+                                        <label
+                                            class="custom-file-label"
+                                            for="hero_video_file"
+                                        >
+                                            Pilih video sampul...
+                                        </label>
+
+                                    </div>
+
+                                    <small class="form-text text-muted">
+                                        Format MP4 atau WEBM.
+                                        Sebaiknya video lanskap (horizontal).
+                                        Maksimal 50 MB.
+                                    </small>
+
+
+                                    <video
+                                        id="hero_video_preview"
+                                        controls
+                                        muted
+                                        style="
+                                            width:100%;
+                                            max-height:180px;
+                                            object-fit:cover;
+                                            border-radius:6px;
+                                            background:#000;
+                                            display:none;
+                                            margin-top:15px;
+                                        "
+                                    ></video>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -277,9 +438,66 @@
 @stop
 
 @section('js')
+
 <script>
-    document.querySelectorAll('.custom-file-input').forEach(function(input) {
-        input.addEventListener('change', function() {
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | PILIH MEDIA HERO
+    |--------------------------------------------------------------------------
+    */
+
+    const heroImageRadio = document.getElementById('hero_image');
+    const heroVideoRadio = document.getElementById('hero_video');
+
+    const heroImageSection = document.getElementById('hero-image-section');
+    const heroVideoSection = document.getElementById('hero-video-section');
+
+
+    function updateHeroMediaType() {
+
+        if (heroVideoRadio.checked) {
+
+            heroImageSection.style.display = 'none';
+            heroVideoSection.style.display = 'block';
+
+        } else {
+
+            heroImageSection.style.display = 'block';
+            heroVideoSection.style.display = 'none';
+
+        }
+
+    }
+
+
+    heroImageRadio.addEventListener(
+        'change',
+        updateHeroMediaType
+    );
+
+    heroVideoRadio.addEventListener(
+        'change',
+        updateHeroMediaType
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PREVIEW GAMBAR
+    |--------------------------------------------------------------------------
+    */
+
+    const coverInput = document.getElementById('cover_image');
+    const coverPreview = document.getElementById('cover_image_preview');
+
+
+    if (coverInput) {
+
+        coverInput.addEventListener('change', function () {
+
             const file = this.files[0];
 
             if (!file) {
@@ -288,14 +506,88 @@
 
             this.nextElementSibling.innerText = file.name;
 
-            const previewId = this.id + '_preview';
-            const preview = document.getElementById(previewId);
+            if (coverPreview) {
 
-            if (preview) {
-                preview.src = URL.createObjectURL(file);
-                preview.style.display = 'block';
+                coverPreview.src =
+                    URL.createObjectURL(file);
+
+                coverPreview.style.display = 'block';
+
             }
+
         });
-    });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PREVIEW VIDEO
+    |--------------------------------------------------------------------------
+    */
+
+    const videoInput =
+        document.getElementById('hero_video_file');
+
+    const videoPreview =
+        document.getElementById('hero_video_preview');
+
+
+    if (videoInput) {
+
+        videoInput.addEventListener('change', function () {
+
+            const file = this.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            this.nextElementSibling.innerText = file.name;
+
+            if (videoPreview) {
+
+                videoPreview.src =
+                    URL.createObjectURL(file);
+
+                videoPreview.style.display = 'block';
+
+                videoPreview.load();
+
+            }
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CUSTOM FILE NAME
+    |--------------------------------------------------------------------------
+    */
+
+    document
+        .querySelectorAll('.custom-file-input')
+        .forEach(function (input) {
+
+            input.addEventListener('change', function () {
+
+                const file = this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                this.nextElementSibling.innerText =
+                    file.name;
+
+            });
+
+        });
+
+});
+
 </script>
+
 @stop
