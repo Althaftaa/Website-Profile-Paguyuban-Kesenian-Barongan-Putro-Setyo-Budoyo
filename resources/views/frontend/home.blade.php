@@ -137,20 +137,19 @@ use Illuminate\Support\Str;
 
         z-index: 0;
     }
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
 
-    background: linear-gradient(
-        180deg,
-        rgba(20,12,6,0.45) 0%,
-        rgba(20,12,6,0.72) 100%
-    );
+        background: linear-gradient(
+            180deg,
+            rgba(20,12,6,0.45) 0%,
+            rgba(20,12,6,0.72) 100%
+        );
 
-    z-index: 1;
-}
-
+        z-index: 1;
+    }
     .hero .container {
         position: relative;
         z-index: 2;
@@ -247,12 +246,181 @@ use Illuminate\Support\Str;
 
     /* ABOUT */
 
+    .about-section {
+        position: relative;
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .about-section::before {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: rgba(201,151,46,0.06);
+        top: -120px;
+        right: -100px;
+    }
+
+    .about-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+
+    .about-image-wrapper {
+        position: relative;
+        padding-right: 25px;
+        padding-bottom: 25px;
+    }
+
     .about-image {
         width: 100%;
-        height: 420px;
+        height: 470px;
         object-fit: cover;
-        border-radius: 16px;
-        box-shadow: 0 20px 40px rgba(61,40,23,0.15);
+        border-radius: 20px;
+        display: block;
+        box-shadow: 0 20px 45px rgba(61,40,23,0.15);
+    }
+
+    .about-image-wrapper::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 75%;
+        height: 75%;
+        border: 2px solid var(--gold);
+        border-radius: 20px;
+        z-index: -1;
+    }
+
+    .about-content {
+        padding-left: 15px;
+    }
+
+    .about-eyebrow {
+        display: inline-block;
+        color: var(--gold-dark);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .about-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 38px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 20px;
+    }
+
+    .about-title span {
+        color: var(--gold-dark);
+    }
+
+    .about-text {
+        color: var(--text-muted);
+        font-size: 14px;
+        line-height: 1.9;
+        margin-bottom: 25px;
+    }
+
+    .about-philosophy {
+        border-left: 3px solid var(--gold);
+        padding: 5px 0 5px 20px;
+        margin-top: 28px;
+    }
+
+    .about-philosophy h5 {
+        font-family: 'Playfair Display', serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+    }
+
+    .about-philosophy p {
+        color: var(--text-muted);
+        font-size: 13.5px;
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+
+    .about-values {
+        display: flex;
+        gap: 14px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .about-value {
+        flex: 1;
+        min-width: 130px;
+        padding: 16px;
+        background: #faf7f0;
+        border-radius: 12px;
+        border: 1px solid #eee7da;
+    }
+
+    .about-value i {
+        color: var(--gold-dark);
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .about-value strong {
+        display: block;
+        color: var(--text-dark);
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .about-value span {
+        color: var(--text-muted);
+        font-size: 11.5px;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 991px) {
+
+        .about-image {
+            height: 400px;
+        }
+
+        .about-content {
+            padding-left: 0;
+        }
+
+    }
+
+    @media (max-width: 767px) {
+
+        .about-image-wrapper {
+            padding-right: 12px;
+            padding-bottom: 12px;
+        }
+
+        .about-image {
+            height: 360px;
+            border-radius: 16px;
+        }
+
+        .about-image-wrapper::after {
+            border-radius: 16px;
+        }
+
+        .about-title {
+            font-size: 31px;
+        }
+
+        .about-values {
+            flex-direction: column;
+        }
+
     }
 
     /* GALLERY */
@@ -955,6 +1123,14 @@ use Illuminate\Support\Str;
             display: block;
             margin-top: 4px;
         }
+        .hero {
+            min-height: 620px;
+            background-position: center;
+        }
+
+        .hero-video {
+            object-position: center center;
+        }
     }
 </style>
 
@@ -1155,43 +1331,158 @@ use Illuminate\Support\Str;
 
 {{-- TENTANG KAMI --}}
 
-<section id="tentang" class="section bg-white">
+<section id="tentang" class="section about-section">
 
     <div class="container">
 
-        <div class="row align-items-center g-5">
+        <div class="row align-items-center g-5 about-wrapper">
 
-            <div class="col-lg-7">
-
-                <h2 class="mb-4" style="color: var(--gold-dark); font-weight: 700;">Tentang Kami</h2>
-
-                @if($profile?->history)
-                    <p class="text-muted mb-4">{!! nl2br(e($profile->history)) !!}</p>
-                @endif
-
-                @if($profile?->philosophy)
-                    <h5 class="subheading">Filosofi</h5>
-                    <p class="text-muted">{!! nl2br(e($profile->philosophy)) !!}</p>
-                @endif
-
-            </div>
+            {{-- FOTO --}}
 
             <div class="col-lg-5">
 
-                @if($profile?->profile_image)
-                    <img
-                        src="{{ asset('storage/' . $profile->profile_image) }}"
-                        class="about-image"
-                        alt="Kelompok Seni {{ $profile->name }}"
-                    >
-                @else
-                    <div class="about-image d-flex align-items-center justify-content-center bg-light">
-                        <div class="text-center text-muted">
-                            <i class="fas fa-image fa-3x mb-3"></i>
-                            <p>Foto profil belum tersedia</p>
+                <div class="about-image-wrapper">
+
+                    @if($profile?->profile_image)
+
+                        <img
+                            src="{{ asset('storage/' . $profile->profile_image) }}"
+                            class="about-image"
+                            alt="Kelompok Seni {{ $profile->name }}"
+                        >
+
+                    @else
+
+                        <div
+                            class="about-image d-flex align-items-center justify-content-center bg-light"
+                        >
+
+                            <div class="text-center text-muted">
+
+                                <i class="fas fa-mask fa-3x mb-3"></i>
+
+                                <p class="mb-0">
+                                    Foto sanggar belum tersedia
+                                </p>
+
+                            </div>
+
                         </div>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+
+            {{-- KONTEN --}}
+
+            <div class="col-lg-7">
+
+                <div class="about-content">
+
+                    <span class="about-eyebrow">
+                        Mengenal Kami
+                    </span>
+
+                    <h2 class="about-title">
+                        Melestarikan Seni,
+                        <span>Merawat Budaya</span>
+                    </h2>
+
+
+                    @if($profile?->history)
+
+                        <p class="about-text">
+                            {!! nl2br(e($profile->history)) !!}
+                        </p>
+
+                    @else
+
+                        <p class="about-text">
+                            Putro Setyo Budoyo merupakan kelompok seni
+                            Barongan yang hadir untuk menjaga, mengembangkan,
+                            dan memperkenalkan seni budaya Jawa kepada
+                            masyarakat melalui seni pertunjukan.
+                        </p>
+
+                    @endif
+
+
+                    {{-- FILOSOFI --}}
+
+                    @if($profile?->philosophy)
+
+                        <div class="about-philosophy">
+
+                            <h5>
+                                Filosofi Kami
+                            </h5>
+
+                            <p>
+                                {!! nl2br(e($profile->philosophy)) !!}
+                            </p>
+
+                        </div>
+
+                    @endif
+
+
+                    {{-- NILAI --}}
+
+                    <div class="about-values">
+
+                        <div class="about-value">
+
+                            <i class="fas fa-masks-theater d-block"></i>
+
+                            <strong>
+                                Seni Pertunjukan
+                            </strong>
+
+                            <span>
+                                Menghidupkan seni Barongan melalui
+                                pertunjukan yang autentik dan berkarakter.
+                            </span>
+
+                        </div>
+
+
+                        <div class="about-value">
+
+                            <i class="fas fa-landmark d-block"></i>
+
+                            <strong>
+                                Budaya Jawa
+                            </strong>
+
+                            <span>
+                                Menjaga nilai dan tradisi budaya Jawa
+                                agar tetap dikenal lintas generasi.
+                            </span>
+
+                        </div>
+
+
+                        <div class="about-value">
+
+                            <i class="fas fa-people-group d-block"></i>
+
+                            <strong>
+                                Kolaborasi
+                            </strong>
+
+                            <span>
+                                Membuka ruang kolaborasi melalui seni,
+                                komunitas, pendidikan, dan kegiatan budaya.
+                            </span>
+
+                        </div>
+
                     </div>
-                @endif
+
+                </div>
 
             </div>
 
