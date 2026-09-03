@@ -815,8 +815,9 @@ use Illuminate\Support\Str;
         .gallery-lightbox {
             position: fixed;
             inset: 0;
-
-            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 10, 6, 0.94);
 
             display: flex;
             align-items: center;
@@ -824,67 +825,66 @@ use Illuminate\Support\Str;
 
             padding: 40px;
 
-            background: rgba(15, 10, 6, 0.92);
-
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
+
+            z-index: 99999;
 
             transition:
-                opacity 0.3s ease,
-                visibility 0.3s ease;
+                opacity 0.25s ease,
+                visibility 0.25s ease;
         }
+
 
         .gallery-lightbox.active {
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
 
 
-        /* FOTO */
+        /* KONTEN FOTO */
 
         .gallery-lightbox-content {
             position: relative;
 
             max-width: 1100px;
-            width: 100%;
+            max-height: 90vh;
 
             display: flex;
             flex-direction: column;
             align-items: center;
-
-            transform: scale(0.92);
-
-            transition: transform 0.35s ease;
+            justify-content: center;
         }
 
-        .gallery-lightbox.active .gallery-lightbox-content {
-            transform: scale(1);
-        }
+
+        /* FOTO */
 
         .gallery-lightbox-content img {
             display: block;
 
-            max-width: 100%;
-            max-height: 80vh;
+            max-width: 90vw;
+            max-height: 78vh;
 
             width: auto;
             height: auto;
 
             object-fit: contain;
 
-            border-radius: 8px;
+            border-radius: 10px;
 
             box-shadow:
-                0 25px 80px rgba(0,0,0,0.5);
+                0 25px 70px rgba(0, 0, 0, 0.45);
         }
 
 
         /* JUDUL */
 
         .gallery-lightbox-title {
-            margin-top: 15px;
+            margin-top: 18px;
 
-            color: #fff;
+            color: #ffffff;
 
             font-family: 'Playfair Display', serif;
 
@@ -892,6 +892,8 @@ use Illuminate\Support\Str;
             font-weight: 600;
 
             text-align: center;
+
+            max-width: 800px;
         }
 
 
@@ -903,35 +905,77 @@ use Illuminate\Support\Str;
             top: 25px;
             right: 30px;
 
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
+
+            border: 1px solid rgba(255,255,255,0.5);
+
+            border-radius: 50%;
+
+            background: rgba(0,0,0,0.35);
+
+            color: #ffffff;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            border: 1px solid rgba(255,255,255,0.3);
-
-            border-radius: 50%;
-
-            background: rgba(255,255,255,0.1);
-
-            color: #fff;
-
             font-size: 18px;
 
             cursor: pointer;
 
-            z-index: 2;
+            z-index: 100000;
 
-            transition: all 0.25s ease;
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
         }
+
 
         .gallery-lightbox-close:hover {
             background: var(--gold);
-            border-color: var(--gold);
 
             transform: rotate(90deg);
+        }
+
+
+        /* ICON EXPAND */
+
+        .gallery-view-icon {
+            position: absolute;
+
+            right: 20px;
+            bottom: 20px;
+
+            width: 46px;
+            height: 46px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,0.7);
+
+            background: rgba(20,12,6,0.45);
+
+            color: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            z-index: 5;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .gallery-view-icon:hover {
+            background: var(--gold);
+
+            transform: scale(1.08);
         }
 
 
@@ -944,9 +988,14 @@ use Illuminate\Support\Str;
             }
 
             .gallery-lightbox-content img {
+                max-width: 94vw;
                 max-height: 75vh;
+                border-radius: 8px;
+            }
 
-                border-radius: 5px;
+            .gallery-lightbox-title {
+                font-size: 16px;
+                padding: 0 15px;
             }
 
             .gallery-lightbox-close {
@@ -955,21 +1004,9 @@ use Illuminate\Support\Str;
 
                 width: 40px;
                 height: 40px;
-
-                font-size: 15px;
-            }
-
-            .gallery-lightbox-title {
-                font-size: 16px;
             }
 
         }
-
-        .gallery-overlay h3 {
-            font-size: 19px;
-        }
-
-    }
     .video-card {
         position: relative;
         border-radius: 14px;
@@ -2045,6 +2082,9 @@ use Illuminate\Support\Str;
                                     @endif
 
                                 </div>
+
+                                {{-- TOMBOL BUKA FOTO --}}
+
                                 <button
                                     type="button"
                                     class="gallery-view-icon"
@@ -2056,6 +2096,7 @@ use Illuminate\Support\Str;
                                 >
                                     <i class="fas fa-expand"></i>
                                 </button>
+
                             </div>
 
                         </div>
@@ -2139,17 +2180,17 @@ use Illuminate\Support\Str;
 <div
     id="galleryLightbox"
     class="gallery-lightbox"
-    onclick="closeGalleryLightbox(event)"
 >
 
     <button
         type="button"
         class="gallery-lightbox-close"
-        onclick="closeGalleryLightbox()"
-        aria-label="Tutup"
+        id="galleryLightboxClose"
+        aria-label="Tutup foto"
     >
         <i class="fas fa-times"></i>
     </button>
+
 
     <div class="gallery-lightbox-content">
 
@@ -3046,79 +3087,141 @@ use Illuminate\Support\Str;
         }
     );
 
+/* =========================================
+   GALLERY LIGHTBOX
+========================================= */
 
-    /* =========================================
-       GALLERY LIGHTBOX
-    ========================================= */
+function openGalleryLightbox(image, title) {
 
-    function openGalleryLightbox(image, title) {
+    const lightbox =
+        document.getElementById('galleryLightbox');
 
-        const lightbox =
-            document.getElementById('galleryLightbox');
+    const lightboxImage =
+        document.getElementById('galleryLightboxImage');
 
-        const lightboxImage =
-            document.getElementById('galleryLightboxImage');
-
-        const lightboxTitle =
-            document.getElementById('galleryLightboxTitle');
-
-
-        lightboxImage.src = image;
-
-        lightboxImage.alt = title;
-
-        lightboxTitle.textContent = title;
+    const lightboxTitle =
+        document.getElementById('galleryLightboxTitle');
 
 
-        lightbox.classList.add('active');
-
-        document.body.style.overflow = 'hidden';
-
+    if (!lightbox || !lightboxImage) {
+        return;
     }
 
 
-        function closeGalleryLightbox(event) {
+    lightboxImage.src = image;
 
-            /*
-            * Hanya tutup jika yang diklik
-            * adalah area background lightbox.
-            */
+    lightboxImage.alt = title || 'Foto galeri';
 
-            if (
-                event &&
-                event.target !== event.currentTarget
-            ) {
-                return;
-            }
+    lightboxTitle.textContent = title || '';
 
 
-            const lightbox =
-                document.getElementById('galleryLightbox');
+    lightbox.classList.add('active');
+
+}
 
 
-            lightbox.classList.remove('active');
+/* TUTUP LIGHTBOX */
 
-            document.body.style.overflow = '';
+function closeGalleryLightbox() {
+
+    const lightbox =
+        document.getElementById('galleryLightbox');
+
+    const lightboxImage =
+        document.getElementById('galleryLightboxImage');
+
+
+    if (!lightbox) {
+        return;
+    }
+
+
+    lightbox.classList.remove('active');
+
+
+    /*
+     * Bersihkan gambar setelah animasi
+     */
+
+    setTimeout(function () {
+
+        if (lightboxImage) {
+            lightboxImage.src = '';
+        }
+
+    }, 250);
+
+}
+
+
+/* TOMBOL CLOSE */
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+        const closeButton =
+            document.getElementById(
+                'galleryLightboxClose'
+            );
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                'click',
+                function (event) {
+
+                    event.stopPropagation();
+
+                    closeGalleryLightbox();
+
+                }
+            );
 
         }
 
 
-    /*
-     * Tutup dengan tombol ESC
-     */
+        /*
+         * Klik background untuk menutup
+         */
 
-    document.addEventListener(
-        'keydown',
-        function (event) {
+        const lightbox =
+            document.getElementById(
+                'galleryLightbox'
+            );
 
-            if (event.key === 'Escape') {
 
-                const lightbox =
-                    document.getElementById('galleryLightbox');
+        if (lightbox) {
 
+            lightbox.addEventListener(
+                'click',
+                function (event) {
+
+                    if (
+                        event.target === lightbox
+                    ) {
+
+                        closeGalleryLightbox();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /*
+         * Tombol ESC
+         */
+
+        document.addEventListener(
+            'keydown',
+            function (event) {
 
                 if (
-                    lightbox.classList.contains('active')
+                    event.key === 'Escape'
                 ) {
 
                     closeGalleryLightbox();
@@ -3126,10 +3229,10 @@ use Illuminate\Support\Str;
                 }
 
             }
+        );
 
-        }
-    );
-
+    }
+);
 </script>
 
 @endpush
