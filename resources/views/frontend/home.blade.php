@@ -3077,30 +3077,30 @@ use Illuminate\Support\Str;
     }
 
 
-    function closeGalleryLightbox(event) {
+        function closeGalleryLightbox(event) {
 
-        /*
-         * Jangan tutup ketika
-         * pengguna mengklik foto/judul.
-         */
+            /*
+            * Hanya tutup jika yang diklik
+            * adalah area background lightbox.
+            */
 
-        if (
-            event &&
-            event.target.closest('.gallery-lightbox-content')
-        ) {
-            return;
+            if (
+                event &&
+                event.target !== event.currentTarget
+            ) {
+                return;
+            }
+
+
+            const lightbox =
+                document.getElementById('galleryLightbox');
+
+
+            lightbox.classList.remove('active');
+
+            document.body.style.overflow = '';
+
         }
-
-
-        const lightbox =
-            document.getElementById('galleryLightbox');
-
-
-        lightbox.classList.remove('active');
-
-        document.body.style.overflow = '';
-
-    }
 
 
     /*
