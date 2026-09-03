@@ -770,7 +770,199 @@ use Illuminate\Support\Str;
         }
 
         .gallery-view-icon {
+            flex-shrink: 0;
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.12);
+
+            backdrop-filter: blur(6px);
+
+            color: #fff;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            transform: translateY(15px);
+
+            transition: all 0.35s ease;
+        }
+
+        .gallery-photo:hover .gallery-view-icon {
             transform: translateY(0);
+        }
+
+        .gallery-view-icon:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            transform: translateY(0) scale(1.08);
+        }
+
+
+        /* =========================================
+        LIGHTBOX
+        ========================================= */
+
+        .gallery-lightbox {
+            position: fixed;
+            inset: 0;
+
+            z-index: 9999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px;
+
+            background: rgba(15, 10, 6, 0.92);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 0.3s ease,
+                visibility 0.3s ease;
+        }
+
+        .gallery-lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        /* FOTO */
+
+        .gallery-lightbox-content {
+            position: relative;
+
+            max-width: 1100px;
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            transform: scale(0.92);
+
+            transition: transform 0.35s ease;
+        }
+
+        .gallery-lightbox.active .gallery-lightbox-content {
+            transform: scale(1);
+        }
+
+        .gallery-lightbox-content img {
+            display: block;
+
+            max-width: 100%;
+            max-height: 80vh;
+
+            width: auto;
+            height: auto;
+
+            object-fit: contain;
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 25px 80px rgba(0,0,0,0.5);
+        }
+
+
+        /* JUDUL */
+
+        .gallery-lightbox-title {
+            margin-top: 15px;
+
+            color: #fff;
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 18px;
+            font-weight: 600;
+
+            text-align: center;
+        }
+
+
+        /* TOMBOL CLOSE */
+
+        .gallery-lightbox-close {
+            position: absolute;
+
+            top: 25px;
+            right: 30px;
+
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(255,255,255,0.3);
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.1);
+
+            color: #fff;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            z-index: 2;
+
+            transition: all 0.25s ease;
+        }
+
+        .gallery-lightbox-close:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+
+            transform: rotate(90deg);
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 767px) {
+
+            .gallery-lightbox {
+                padding: 20px;
+            }
+
+            .gallery-lightbox-content img {
+                max-height: 75vh;
+
+                border-radius: 5px;
+            }
+
+            .gallery-lightbox-close {
+                top: 15px;
+                right: 15px;
+
+                width: 40px;
+                height: 40px;
+
+                font-size: 15px;
+            }
+
+            .gallery-lightbox-title {
+                font-size: 16px;
+            }
+
         }
 
         .gallery-overlay h3 {
@@ -1853,11 +2045,17 @@ use Illuminate\Support\Str;
                                     @endif
 
                                 </div>
-
-                                <span class="gallery-view-icon">
+                                <button
+                                    type="button"
+                                    class="gallery-view-icon"
+                                    onclick="openGalleryLightbox(
+                                        '{{ asset('storage/' . $gallery->image) }}',
+                                        '{{ addslashes($gallery->title) }}'
+                                    )"
+                                    aria-label="Lihat foto {{ $gallery->title }}"
+                                >
                                     <i class="fas fa-expand"></i>
-                                </span>
-
+                                </button>
                             </div>
 
                         </div>
@@ -1935,6 +2133,40 @@ use Illuminate\Support\Str;
     </div>
 
 </section>
+
+{{-- GALLERY LIGHTBOX --}}
+
+<div
+    id="galleryLightbox"
+    class="gallery-lightbox"
+    onclick="closeGalleryLightbox(event)"
+>
+
+    <button
+        type="button"
+        class="gallery-lightbox-close"
+        onclick="closeGalleryLightbox()"
+        aria-label="Tutup"
+    >
+        <i class="fas fa-times"></i>
+    </button>
+
+    <div class="gallery-lightbox-content">
+
+        <img
+            id="galleryLightboxImage"
+            src=""
+            alt=""
+        >
+
+        <div
+            id="galleryLightboxTitle"
+            class="gallery-lightbox-title"
+        ></div>
+
+    </div>
+
+</div>
 
 {{-- PAKET PEMENTASAN --}}
 
@@ -2670,19 +2902,12 @@ use Illuminate\Support\Str;
                 'input[name="selected_package"]:checked'
             ).value;
 
-
         const packagePrice =
             packagePrices[selectedPackage];
-
 
         const starAddon =
             document.getElementById('starAddon');
 
-
-        /*
-         * Bintang tamu hanya tersedia
-         * untuk paket Premium.
-         */
 
         if (selectedPackage === 'classic') {
 
@@ -2718,10 +2943,6 @@ use Illuminate\Support\Str;
             packagePrice + addonPrice;
 
 
-        /*
-         * Update ringkasan
-         */
-
         document.getElementById(
             'summaryPackage'
         ).textContent =
@@ -2747,10 +2968,6 @@ use Illuminate\Support\Str;
         ).textContent =
             formatRupiah(total);
 
-
-        /*
-         * Update tombol WhatsApp
-         */
 
         const whatsappButton =
             document.getElementById(
@@ -2798,10 +3015,6 @@ use Illuminate\Support\Str;
         }
 
 
-        /*
-         * Highlight pilihan paket
-         */
-
         document
             .getElementById('option-classic')
             .classList.toggle(
@@ -2819,6 +3032,7 @@ use Illuminate\Support\Str;
 
     }
 
+
     /*
      * Jalankan ketika halaman pertama kali dibuka
      */
@@ -2828,6 +3042,90 @@ use Illuminate\Support\Str;
         function () {
 
             updatePackageCalculator();
+
+        }
+    );
+
+
+    /* =========================================
+       GALLERY LIGHTBOX
+    ========================================= */
+
+    function openGalleryLightbox(image, title) {
+
+        const lightbox =
+            document.getElementById('galleryLightbox');
+
+        const lightboxImage =
+            document.getElementById('galleryLightboxImage');
+
+        const lightboxTitle =
+            document.getElementById('galleryLightboxTitle');
+
+
+        lightboxImage.src = image;
+
+        lightboxImage.alt = title;
+
+        lightboxTitle.textContent = title;
+
+
+        lightbox.classList.add('active');
+
+        document.body.style.overflow = 'hidden';
+
+    }
+
+
+    function closeGalleryLightbox(event) {
+
+        /*
+         * Jangan tutup ketika
+         * pengguna mengklik foto/judul.
+         */
+
+        if (
+            event &&
+            event.target.closest('.gallery-lightbox-content')
+        ) {
+            return;
+        }
+
+
+        const lightbox =
+            document.getElementById('galleryLightbox');
+
+
+        lightbox.classList.remove('active');
+
+        document.body.style.overflow = '';
+
+    }
+
+
+    /*
+     * Tutup dengan tombol ESC
+     */
+
+    document.addEventListener(
+        'keydown',
+        function (event) {
+
+            if (event.key === 'Escape') {
+
+                const lightbox =
+                    document.getElementById('galleryLightbox');
+
+
+                if (
+                    lightbox.classList.contains('active')
+                ) {
+
+                    closeGalleryLightbox();
+
+                }
+
+            }
 
         }
     );
