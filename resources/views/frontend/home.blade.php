@@ -477,7 +477,307 @@ use Illuminate\Support\Str;
         line-height: 1.7;
         margin-bottom: 0;
     }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 220px;
+        gap: 16px;
+        margin-bottom: 60px;
+    }
 
+    .gallery-item {
+        min-width: 0;
+    }
+
+    .gallery-item.gallery-featured {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .gallery-photo {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 18px;
+        background: #1d1712;
+        box-shadow: 0 10px 30px rgba(50, 35, 20, 0.10);
+    }
+
+    .gallery-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s ease;
+    }
+
+    .gallery-photo:hover img {
+        transform: scale(1.07);
+    }
+
+
+    /* OVERLAY */
+
+    .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+
+        padding: 24px;
+
+        background:
+            linear-gradient(
+                180deg,
+                rgba(20, 12, 6, 0) 35%,
+                rgba(20, 12, 6, 0.82) 100%
+            );
+
+        color: #fff;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+    }
+
+    .gallery-photo:hover .gallery-overlay {
+        opacity: 1;
+    }
+
+
+    .gallery-overlay-content {
+        max-width: calc(100% - 55px);
+        transform: translateY(15px);
+        transition: transform 0.35s ease;
+    }
+
+    .gallery-photo:hover .gallery-overlay-content {
+        transform: translateY(0);
+    }
+
+
+    /* LABEL */
+
+    .gallery-category {
+        display: inline-block;
+
+        padding: 5px 10px;
+
+        margin-bottom: 8px;
+
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 30px;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        color: #fff;
+
+        background: rgba(255,255,255,0.10);
+        backdrop-filter: blur(5px);
+    }
+
+
+    /* JUDUL */
+
+    .gallery-overlay h3 {
+        margin: 0 0 7px;
+
+        color: #fff;
+
+        font-family: 'Playfair Display', serif;
+
+        font-size: 22px;
+        line-height: 1.25;
+
+        font-weight: 700;
+    }
+
+
+    /* TANGGAL */
+
+    .gallery-date {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        margin-bottom: 7px;
+
+        color: rgba(255,255,255,0.85);
+
+        font-size: 12px;
+    }
+
+    .gallery-date i {
+        color: var(--gold);
+    }
+
+
+    /* DESKRIPSI */
+
+    .gallery-overlay p {
+        margin: 0;
+
+        color: rgba(255,255,255,0.78);
+
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+
+    /* ICON */
+
+    .gallery-view-icon {
+        flex-shrink: 0;
+
+        width: 42px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 50%;
+
+        background: rgba(255,255,255,0.12);
+
+        backdrop-filter: blur(6px);
+
+        color: #fff;
+
+        font-size: 13px;
+
+        transform: translateY(15px);
+        transition: all 0.35s ease;
+    }
+
+    .gallery-photo:hover .gallery-view-icon {
+        transform: translateY(0);
+    }
+
+
+    /* =========================================
+    GALERI KOSONG
+    ========================================= */
+
+    .gallery-empty {
+        padding: 70px 20px;
+
+        text-align: center;
+
+        border: 1px dashed #d8cfbf;
+        border-radius: 18px;
+
+        background: rgba(255,255,255,0.45);
+    }
+
+    .gallery-empty-icon {
+        width: 65px;
+        height: 65px;
+
+        margin: 0 auto 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #eee7da;
+
+        color: var(--gold-dark);
+
+        font-size: 25px;
+    }
+
+    .gallery-empty h4 {
+        margin-bottom: 8px;
+
+        font-family: 'Playfair Display', serif;
+
+        color: var(--text-dark);
+
+        font-size: 21px;
+    }
+
+    .gallery-empty p {
+        max-width: 420px;
+
+        margin: 0 auto;
+
+        color: var(--text-muted);
+
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+
+    /* =========================================
+    TABLET
+    ========================================= */
+
+    @media (max-width: 991px) {
+
+        .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+            grid-auto-rows: 230px;
+        }
+
+        .gallery-item.gallery-featured {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+    }
+
+
+    /* =========================================
+    MOBILE
+    ========================================= */
+
+    @media (max-width: 767px) {
+
+        .gallery-grid {
+            grid-template-columns: 1fr;
+            grid-auto-rows: 260px;
+            gap: 12px;
+        }
+
+        .gallery-item.gallery-featured {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        .gallery-overlay {
+            opacity: 1;
+
+            padding: 18px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(20, 12, 6, 0) 25%,
+                    rgba(20, 12, 6, 0.85) 100%
+                );
+        }
+
+        .gallery-overlay-content {
+            transform: translateY(0);
+        }
+
+        .gallery-view-icon {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h3 {
+            font-size: 19px;
+        }
+
+    }
     .video-card {
         position: relative;
         border-radius: 14px;
@@ -1506,70 +1806,57 @@ use Illuminate\Support\Str;
 
         @if($galleries->count())
 
-            <div class="row mb-5">
+            <div class="gallery-grid">
 
                 @foreach($galleries as $gallery)
 
-                    <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="gallery-item {{ $loop->first ? 'gallery-featured' : '' }}">
 
-                        <div class="gallery-card">
-
-                            {{-- FOTO --}}
+                        <div class="gallery-photo">
 
                             <img
-                                src="{{ asset('storage/'.$gallery->image) }}"
-                                class="gallery-card-image"
+                                src="{{ asset('storage/' . $gallery->image) }}"
                                 alt="{{ $gallery->title }}"
+                                loading="lazy"
                             >
 
-                            {{-- INFORMASI FOTO --}}
+                            <div class="gallery-overlay">
 
-                            <div class="gallery-card-body">
+                                <div class="gallery-overlay-content">
 
-                                {{-- JUDUL --}}
+                                    <span class="gallery-category">
+                                        Dokumentasi
+                                    </span>
 
-                                <h5 class="gallery-card-title">
-                                    {{ $gallery->title }}
-                                </h5>
+                                    <h3>
+                                        {{ $gallery->title }}
+                                    </h3>
 
+                                    @if($gallery->activity_date)
 
-                                {{-- TANGGAL --}}
+                                        <div class="gallery-date">
 
-                                @if($gallery->activity_date)
+                                            <i class="far fa-calendar-alt"></i>
 
-                                    <div class="gallery-card-date">
-
-                                        <i class="far fa-calendar-alt"></i>
-
-                                        <span>
                                             {{ $gallery->activity_date->format('d F Y') }}
-                                        </span>
 
-                                    </div>
+                                        </div>
 
-                                @endif
+                                    @endif
 
+                                    @if($gallery->description)
 
-                                {{-- DESKRIPSI --}}
+                                        <p>
+                                            {{ Str::limit($gallery->description, 100) }}
+                                        </p>
 
-                                @if($gallery->description)
+                                    @endif
 
-                                    <p class="gallery-card-description">
+                                </div>
 
-                                        {{ Str::limit($gallery->description, 120) }}
-
-                                    </p>
-
-                                @else
-
-                                    <p class="gallery-card-description">
-
-                                        Dokumentasi kegiatan dan pertunjukan
-                                        Kelompok Seni Barongan Putro Setyo Budoyo.
-
-                                    </p>
-
-                                @endif
+                                <span class="gallery-view-icon">
+                                    <i class="fas fa-expand"></i>
+                                </span>
 
                             </div>
 
@@ -1583,12 +1870,17 @@ use Illuminate\Support\Str;
 
         @else
 
-            <div class="text-center py-4 mb-5">
+            <div class="gallery-empty">
 
-                <i class="fas fa-images fa-2x text-muted mb-2"></i>
+                <div class="gallery-empty-icon">
+                    <i class="fas fa-images"></i>
+                </div>
 
-                <p class="text-muted mb-0">
-                    Galeri foto masih kosong
+                <h4>Galeri Foto Belum Tersedia</h4>
+
+                <p>
+                    Dokumentasi kegiatan dan pertunjukan
+                    Putro Setyo Budoyo akan ditampilkan di sini.
                 </p>
 
             </div>
