@@ -425,58 +425,6 @@ use Illuminate\Support\Str;
 
     /* GALLERY */
 
-    .gallery-card {
-        background: #ffffff;
-        border-radius: 16px;
-        overflow: hidden;
-        height: 100%;
-        box-shadow: 0 8px 22px rgba(61,40,23,0.08);
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .gallery-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 14px 30px rgba(61,40,23,0.14);
-    }
-
-    .gallery-card-image {
-        width: 100%;
-        height: 230px;
-        object-fit: cover;
-        display: block;
-    }
-
-    .gallery-card-body {
-        padding: 20px;
-    }
-
-    .gallery-card-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 19px;
-        font-weight: 700;
-        color: var(--text-dark);
-        margin-bottom: 8px;
-    }
-
-    .gallery-card-date {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        color: var(--gold-dark);
-        font-size: 12.5px;
-        margin-bottom: 12px;
-    }
-
-    .gallery-card-date i {
-        font-size: 12px;
-    }
-
-    .gallery-card-description {
-        color: var(--text-muted);
-        font-size: 13.5px;
-        line-height: 1.7;
-        margin-bottom: 0;
-    }
     .gallery-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -627,39 +575,6 @@ use Illuminate\Support\Str;
         line-height: 1.6;
     }
 
-
-    /* ICON */
-
-    .gallery-view-icon {
-        flex-shrink: 0;
-
-        width: 42px;
-        height: 42px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        border: 1px solid rgba(255,255,255,0.35);
-        border-radius: 50%;
-
-        background: rgba(255,255,255,0.12);
-
-        backdrop-filter: blur(6px);
-
-        color: #fff;
-
-        font-size: 13px;
-
-        transform: translateY(15px);
-        transition: all 0.35s ease;
-    }
-
-    .gallery-photo:hover .gallery-view-icon {
-        transform: translateY(0);
-    }
-
-
     /* =========================================
     GALERI KOSONG
     ========================================= */
@@ -769,44 +684,7 @@ use Illuminate\Support\Str;
             transform: translateY(0);
         }
 
-        .gallery-view-icon {
-            flex-shrink: 0;
-
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border: 1px solid rgba(255,255,255,0.35);
-            border-radius: 50%;
-
-            background: rgba(255,255,255,0.12);
-
-            backdrop-filter: blur(6px);
-
-            color: #fff;
-
-            font-size: 13px;
-
-            cursor: pointer;
-
-            transform: translateY(15px);
-
-            transition: all 0.35s ease;
-        }
-
-        .gallery-photo:hover .gallery-view-icon {
-            transform: translateY(0);
-        }
-
-        .gallery-view-icon:hover {
-            background: var(--gold);
-            border-color: var(--gold);
-            transform: translateY(0) scale(1.08);
-        }
-
+    }
 
         /* =========================================
         LIGHTBOX
@@ -2088,10 +1966,10 @@ use Illuminate\Support\Str;
                                 <button
                                     type="button"
                                     class="gallery-view-icon"
-                                    onclick="openGalleryLightbox(
-                                        '{{ asset('storage/' . $gallery->image) }}',
-                                        '{{ addslashes($gallery->title) }}'
-                                    )"
+                                    onclick='openGalleryLightbox(
+                                        @js(asset("storage/" . $gallery->image)),
+                                        @js($gallery->title)
+                                    )'
                                     aria-label="Lihat foto {{ $gallery->title }}"
                                 >
                                     <i class="fas fa-expand"></i>
