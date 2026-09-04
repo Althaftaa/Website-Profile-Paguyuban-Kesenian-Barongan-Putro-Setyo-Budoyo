@@ -1669,13 +1669,153 @@ use Illuminate\Support\Str;
     .order-summary {
         border-radius: 18px;
     }
+
+    /* ==== JADWAL PERTUNJUKAN - REDESIGN ==== */
+    #jadwal.section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    #jadwal .section-header-wrap {
+        max-width: 620px;
+        margin: 0 auto 55px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .jadwal-eyebrow {
+        display: inline-block;
+        color: var(--gold-dark);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .jadwal-timeline {
+        position: relative;
+        z-index: 1;
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+    .jadwal-timeline::before {
+        content: "";
+        position: absolute;
+        left: 44px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: repeating-linear-gradient(
+            180deg,
+            var(--gold) 0 8px,
+            transparent 8px 16px
+        );
+    }
+
+    @media (max-width: 575px) {
+        .jadwal-timeline::before { left: 34px; }
+    }
+
+    .jadwal-entry {
+        position: relative;
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+        margin-bottom: 26px;
+    }
+
+    .jadwal-entry:last-child {
+        margin-bottom: 0;
+    }
+
+    .jadwal-date {
+        position: relative;
+        z-index: 1;
+        flex-shrink: 0;
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 2px solid var(--gold);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 20px rgba(61,40,23,0.08);
+    }
+
+    @media (max-width: 575px) {
+        .jadwal-date { width: 68px; height: 68px; }
+    }
+
+    .jadwal-date .day {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-dark);
+        line-height: 1;
+    }
+
+    @media (max-width: 575px) {
+        .jadwal-date .day { font-size: 19px; }
+    }
+
+    .jadwal-date .month {
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+        color: var(--gold-dark);
+        margin-top: 3px;
+    }
+
+    .jadwal-card {
+        flex: 1;
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 20px 26px;
+        box-shadow: 0 6px 18px rgba(61,40,23,0.07);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .jadwal-card:hover {
+        transform: translateX(4px);
+        box-shadow: 0 12px 28px rgba(61,40,23,0.12);
+    }
+
+    .jadwal-card h5 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    .jadwal-card .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+    .jadwal-card .meta span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .jadwal-card .meta i {
+        color: var(--gold-dark);
+    }
 </style>
 
 @endpush
 
-
 @section('content')
-
 
 {{-- NAVBAR --}}
 
@@ -2441,22 +2581,38 @@ use Illuminate\Support\Str;
 
     <div class="container" style="max-width:820px;">
 
-        <h2 class="section-eyebrow">Jadwal Pertunjukan</h2>
-        <p class="section-sub">Informasi jadwal pertunjukan Kelompok Seni Barongan Putro Setyo Budoyo</p>
+        <div class="section-header-wrap">
+            <span class="jadwal-eyebrow">Agenda Kami</span>
+            <h2 class="section-eyebrow" style="margin-bottom:8px;">Jadwal Pertunjukan</h2>
+            <p class="section-sub" style="margin-bottom:0;">
+                Informasi jadwal pertunjukan Kelompok Seni Barongan Putro Setyo Budoyo
+            </p>
+        </div>
 
         @if($schedules->count())
 
-            @foreach($schedules as $schedule)
-                <div class="jadwal-row">
-                    <div>
-                        <h5>{{ $schedule->title }}</h5>
-                        <div class="meta">
-                            <span><i class="far fa-calendar-alt me-1"></i>{{ $schedule->event_date->format('d F Y') }}</span>
-                            <span><i class="fas fa-map-marker-alt me-1"></i>{{ $schedule->location }}</span>
+            <div class="jadwal-timeline">
+
+                @foreach($schedules as $schedule)
+                    <div class="jadwal-entry">
+
+                        <div class="jadwal-date">
+                            <span class="day">{{ $schedule->event_date->format('d') }}</span>
+                            <span class="month">{{ $schedule->event_date->translatedFormat('M') }}</span>
                         </div>
+
+                        <div class="jadwal-card">
+                            <h5>{{ $schedule->title }}</h5>
+                            <div class="meta">
+                                <span><i class="far fa-calendar-alt"></i>{{ $schedule->event_date->format('d F Y') }}</span>
+                                <span><i class="fas fa-map-marker-alt"></i>{{ $schedule->location }}</span>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+
+            </div>
 
         @else
 
@@ -2469,7 +2625,6 @@ use Illuminate\Support\Str;
     </div>
 
 </section>
-
 
 {{-- BERITA & KEGIATAN --}}
 
