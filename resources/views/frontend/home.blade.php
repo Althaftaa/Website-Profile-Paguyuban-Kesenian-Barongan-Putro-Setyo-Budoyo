@@ -1234,125 +1234,6 @@ use Illuminate\Support\Str;
         background: #f4f0e7;
     }
 
-    .package-card {
-        position: relative;
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 32px;
-        height: 100%;
-        border: 1px solid #eee8dc;
-        box-shadow: 0 10px 30px rgba(61, 40, 23, 0.08);
-        transition: all 0.3s ease;
-    }
-
-    .package-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 18px 40px rgba(61, 40, 23, 0.13);
-    }
-
-    .package-card.premium {
-        border: 2px solid var(--gold);
-    }
-
-    .package-badge {
-        position: absolute;
-        top: -13px;
-        right: 25px;
-        background: var(--gold);
-        color: #ffffff;
-        padding: 6px 16px;
-        border-radius: 30px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-    }
-
-    .package-name {
-        font-family: 'Playfair Display', serif;
-        font-size: 25px;
-        font-weight: 700;
-        color: var(--text-dark);
-        margin-bottom: 8px;
-    }
-
-    .package-description {
-        color: var(--text-muted);
-        font-size: 13px;
-        margin-bottom: 24px;
-    }
-
-    .package-price-label {
-        color: var(--text-muted);
-        font-size: 12px;
-        margin-bottom: 3px;
-    }
-
-    .package-price {
-        color: var(--gold-dark);
-        font-family: 'Playfair Display', serif;
-        font-size: 30px;
-        font-weight: 700;
-        margin-bottom: 25px;
-    }
-
-    .package-price small {
-        font-family: 'Poppins', sans-serif;
-        font-size: 12px;
-        font-weight: 400;
-        color: var(--text-muted);
-    }
-
-    .package-facilities {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 25px;
-    }
-
-    .package-facilities li {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        padding: 9px 0;
-        border-bottom: 1px solid #f0ece4;
-        font-size: 13.5px;
-        color: var(--text-muted);
-    }
-
-    .package-facilities li:last-child {
-        border-bottom: none;
-    }
-
-    .package-facilities .check {
-        color: var(--gold-dark);
-        font-size: 13px;
-        margin-top: 2px;
-    }
-
-    .package-facilities .cross {
-        color: #aaa;
-        font-size: 13px;
-        margin-top: 2px;
-    }
-
-    .package-select-btn {
-        width: 100%;
-        border: 1.5px solid var(--gold);
-        background: transparent;
-        color: var(--gold-dark);
-        border-radius: 30px;
-        padding: 11px 20px;
-        font-size: 13px;
-        font-weight: 600;
-        transition: all 0.25s ease;
-    }
-
-    .package-select-btn:hover,
-    .package-select-btn.active {
-        background: var(--gold);
-        color: #ffffff;
-    }
-
-
     /* CALCULATOR */
 
     .package-calculator {
@@ -2532,15 +2413,8 @@ use Illuminate\Support\Str;
                         </div>
 
                         @if($contact?->phone)
-                            
-                                href="#"
-                                id="packageWhatsappButton"
-                                class="package-order-btn"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <i class="fab fa-whatsapp"></i>
-                                Pesan Paket Ini
+                            <a href="#" id="packageWhatsappButton" class="package-order-btn" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-whatsapp"></i> Pesan Paket Ini
                             </a>
                         @endif
 
