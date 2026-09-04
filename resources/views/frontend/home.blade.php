@@ -1020,12 +1020,37 @@ use Illuminate\Support\Str;
         gap: 20px;
     }
 
+    /* Grid untuk video portrait (TikTok / Instagram): kolom lebih banyak, kartu lebih kecil & rapat */
+    #videoGrid[data-platform="tiktok"],
+    #videoGrid[data-platform="instagram"] {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+    }
+
+    @media (max-width: 991px) {
+        #videoGrid[data-platform="tiktok"],
+        #videoGrid[data-platform="instagram"] {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
     @media (max-width: 767px) {
         .video-grid-new { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+        #videoGrid[data-platform="tiktok"],
+        #videoGrid[data-platform="instagram"] {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
     }
 
     @media (max-width: 480px) {
         .video-grid-new { grid-template-columns: 1fr; }
+
+        #videoGrid[data-platform="tiktok"],
+        #videoGrid[data-platform="instagram"] {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     .video-card-new {
@@ -1247,6 +1272,31 @@ use Illuminate\Support\Str;
             grid-column: span 1;
             aspect-ratio: 16 / 9;
         }
+    }
+    /* Kalau kartu unggulan kebetulan videonya portrait (TikTok/Instagram), jangan dipaksa landscape */
+    .video-card-new.featured[data-platform="tiktok"],
+    .video-card-new.featured[data-platform="instagram"] {
+        grid-column: span 1;
+        aspect-ratio: 9 / 16;
+    }
+
+    /* Perkecil ikon play & badge di grid portrait yang kolomnya lebih banyak */
+    #videoGrid[data-platform="tiktok"] .play-btn-new,
+    #videoGrid[data-platform="instagram"] .play-btn-new {
+        width: 40px;
+        height: 40px;
+        font-size: 13px;
+    }
+
+    #videoGrid[data-platform="tiktok"] .platform-badge-new,
+    #videoGrid[data-platform="instagram"] .platform-badge-new {
+        font-size: 9.5px;
+        padding: 4px 9px;
+    }
+
+    #videoGrid[data-platform="tiktok"] .video-label-new,
+    #videoGrid[data-platform="instagram"] .video-label-new {
+        font-size: 11.5px;
     }
     .video-card-new.featured .video-label-new {
         opacity: 1;
@@ -2623,7 +2673,7 @@ use Illuminate\Support\Str;
 
             </div>
 
-            <div class="video-grid-new" id="videoGrid">
+            <div class="video-grid-new" id="videoGrid" data-platform="{{ $defaultSlug }}">
 
                 @foreach($videos as $video)
                     <a
@@ -3616,6 +3666,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const tabs = document.querySelectorAll('#videoTabs .video-tab');
     const cards = document.querySelectorAll('#videoGrid .video-card-new');
     const emptyState = document.getElementById('videoEmptyState');
+    const grid = document.getElementById('videoGrid');
 
     if (!tabs.length || !cards.length) return;
 
@@ -3633,7 +3684,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.classList.toggle('hidden-card', !match);
                 if (match) visibleCount++;
             });
-
+            if (grid) {
+                grid.dataset.platform = filter;
+            }
             if (emptyState) {
                 emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
             }
