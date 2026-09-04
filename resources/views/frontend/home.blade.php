@@ -1539,6 +1539,255 @@ use Illuminate\Support\Str;
             object-position: center center;
         }
     }
+    /* ==== PAKET PEMENTASAN - REDESIGN ==== */
+    .package-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .package-section::before {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: rgba(201,151,46,0.07);
+        top: -150px;
+        left: -110px;
+    }
+
+    .package-section::after {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 2px solid rgba(201,151,46,0.15);
+        bottom: -70px;
+        right: -50px;
+    }
+
+    .package-header {
+        position: relative;
+        z-index: 1;
+        max-width: 620px;
+        margin: 0 auto 55px;
+        text-align: center;
+    }
+
+    .package-eyebrow {
+        display: inline-block;
+        color: var(--gold-dark);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .package-header h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1.25;
+        color: var(--text-dark);
+        margin-bottom: 14px;
+    }
+
+    .package-header h2 span {
+        color: var(--gold-dark);
+    }
+
+    .package-header p {
+        color: var(--text-muted);
+        font-size: 14.5px;
+        margin: 0;
+    }
+
+    .package-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    @media (max-width: 991px) {
+        .package-grid { grid-template-columns: 1fr; }
+    }
+
+    .ticket-card {
+        position: relative;
+        background: #ffffff;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 14px 34px rgba(61,40,23,0.10);
+        transition: transform .35s ease, box-shadow .35s ease;
+    }
+
+    .ticket-card:hover {
+        transform: translateY(-8px) rotate(-0.4deg);
+        box-shadow: 0 24px 50px rgba(61,40,23,0.16);
+    }
+
+    .ticket-card.premium {
+        transform: translateY(-14px);
+        border: 2px solid var(--gold);
+    }
+
+    .ticket-card.premium:hover {
+        transform: translateY(-20px) rotate(0.4deg);
+    }
+
+    @media (max-width: 991px) {
+        .ticket-card.premium { transform: none; }
+        .ticket-card.premium:hover { transform: translateY(-8px); }
+    }
+
+    .ticket-ribbon {
+        position: absolute;
+        top: 16px;
+        right: -34px;
+        background: var(--gold);
+        color: #ffffff;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: .5px;
+        padding: 5px 40px;
+        transform: rotate(40deg);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    .ticket-top {
+        padding: 30px 30px 24px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .ticket-icon {
+        flex-shrink: 0;
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #faf7f0;
+        border: 1.5px solid var(--gold);
+        color: var(--gold-dark);
+        font-size: 20px;
+    }
+
+    .ticket-card.premium .ticket-icon {
+        background: var(--gold);
+        color: #ffffff;
+    }
+
+    .ticket-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 23px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+    }
+
+    .ticket-desc {
+        color: var(--text-muted);
+        font-size: 12.5px;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .ticket-divider {
+        border-top: 2px dashed #e6ddc9;
+        margin: 0 30px;
+    }
+
+    .ticket-body {
+        padding: 24px 30px 30px;
+    }
+
+    .ticket-price-label {
+        display: block;
+        color: var(--text-muted);
+        font-size: 11.5px;
+        margin-bottom: 2px;
+    }
+
+    .ticket-price {
+        font-family: 'Playfair Display', serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--gold-dark);
+        margin-bottom: 20px;
+    }
+
+    .ticket-price small {
+        font-family: 'Poppins', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--text-muted);
+    }
+
+    .ticket-facilities {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 24px;
+    }
+
+    .ticket-facilities li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 8px 0;
+        font-size: 13.5px;
+        color: var(--text-muted);
+    }
+
+    .ticket-facilities .check { color: var(--gold-dark); font-size: 13px; margin-top: 2px; }
+    .ticket-facilities .cross { color: #bbb; font-size: 13px; margin-top: 2px; }
+
+    .ticket-btn {
+        width: 100%;
+        border: 1.5px solid var(--gold);
+        background: transparent;
+        color: var(--gold-dark);
+        border-radius: 30px;
+        padding: 11px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all .25s ease;
+    }
+
+    .ticket-btn:hover {
+        background: var(--gold);
+        color: #ffffff;
+    }
+
+    /* Kalkulator */
+    .package-calculator {
+        position: relative;
+        z-index: 1;
+        border-radius: 26px;
+    }
+
+    .package-option {
+        border-radius: 16px;
+        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .package-option:hover {
+        transform: translateY(-2px);
+    }
+
+    .package-option.selected {
+        box-shadow: 0 8px 18px rgba(201,151,46,0.14);
+    }
+
+    .order-summary {
+        border-radius: 18px;
+    }
 </style>
 
 @endpush
@@ -2093,78 +2342,51 @@ use Illuminate\Support\Str;
 
     <div class="container">
 
-        <h2 class="section-eyebrow">
-            Paket Pementasan
-        </h2>
+        <div class="package-header">
+            <span class="package-eyebrow">Paket Pementasan</span>
+            <h2>Satu Panggung, <span>Banyak Pilihan Cerita</span></h2>
+            <p>
+                Pilih paket pementasan Barongan Putro Setyo Budoyo
+                sesuai kebutuhan dan suasana acara Anda.
+            </p>
+        </div>
 
-        <p class="section-sub">
-            Pilih paket pementasan Barongan Putro Setyo Budoyo
-            sesuai kebutuhan acara Anda.
-        </p>
+        {{-- PERBANDINGAN PAKET (GAYA TIKET) --}}
 
-
-        {{-- PERBANDINGAN PAKET --}}
-
-        <div class="row g-4">
+        <div class="package-grid">
 
             {{-- CLASSIC --}}
 
-            <div class="col-lg-6">
+            <div class="ticket-card">
 
-                <div class="package-card">
+                <div class="ticket-top">
+                    <span class="ticket-icon"><i class="fas fa-masks-theater"></i></span>
+                    <div>
+                        <h3 class="ticket-name">Classic</h3>
+                        <p class="ticket-desc">
+                            Fasilitas utama untuk memeriahkan acara Anda.
+                        </p>
+                    </div>
+                </div>
 
-                    <h3 class="package-name">
-                        Classic
-                    </h3>
+                <div class="ticket-divider"></div>
 
-                    <p class="package-description">
-                        Pilihan paket pementasan dengan fasilitas
-                        utama untuk memeriahkan acara Anda.
-                    </p>
+                <div class="ticket-body">
 
-                    <div class="package-price-label">
-                        Mulai dari
+                    <span class="ticket-price-label">Mulai dari</span>
+                    <div class="ticket-price">
+                        Rp7.000.000 <small>/ pementasan</small>
                     </div>
 
-                    <div class="package-price">
-                        Rp7.000.000
-                        <small>/ pementasan</small>
-                    </div>
-
-                    <ul class="package-facilities">
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Honor pemain dan kru</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Transportasi</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Konsumsi</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Sewa sound system</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-times cross"></i>
-                            <span>Bintang tamu belum termasuk</span>
-                        </li>
-
+                    <ul class="ticket-facilities">
+                        <li><i class="fas fa-check check"></i><span>Honor pemain dan kru</span></li>
+                        <li><i class="fas fa-check check"></i><span>Transportasi</span></li>
+                        <li><i class="fas fa-check check"></i><span>Konsumsi</span></li>
+                        <li><i class="fas fa-check check"></i><span>Sewa sound system</span></li>
+                        <li><i class="fas fa-times cross"></i><span>Bintang tamu belum termasuk</span></li>
                     </ul>
 
-                    <button
-                        type="button"
-                        class="package-select-btn"
-                        onclick="selectPackage('classic')"
-                    >
+                    <button type="button" class="ticket-btn" onclick="selectPackage('classic')">
                         Pilih Paket Classic
                     </button>
 
@@ -2172,69 +2394,40 @@ use Illuminate\Support\Str;
 
             </div>
 
-
             {{-- PREMIUM --}}
 
-            <div class="col-lg-6">
+            <div class="ticket-card premium">
 
-                <div class="package-card premium">
+                <span class="ticket-ribbon">REKOMENDASI</span>
 
-                    <span class="package-badge">
-                        REKOMENDASI
-                    </span>
+                <div class="ticket-top">
+                    <span class="ticket-icon"><i class="fas fa-star"></i></span>
+                    <div>
+                        <h3 class="ticket-name">Premium</h3>
+                        <p class="ticket-desc">
+                            Pengalaman pementasan yang lebih lengkap dan maksimal.
+                        </p>
+                    </div>
+                </div>
 
-                    <h3 class="package-name">
-                        Premium
-                    </h3>
+                <div class="ticket-divider"></div>
 
-                    <p class="package-description">
-                        Paket lebih lengkap untuk memberikan pengalaman
-                        pementasan yang lebih maksimal.
-                    </p>
+                <div class="ticket-body">
 
-                    <div class="package-price-label">
-                        Mulai dari
+                    <span class="ticket-price-label">Mulai dari</span>
+                    <div class="ticket-price">
+                        Rp9.000.000 <small>/ pementasan</small>
                     </div>
 
-                    <div class="package-price">
-                        Rp9.000.000
-                        <small>/ pementasan</small>
-                    </div>
-
-                    <ul class="package-facilities">
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Honor pemain dan kru</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Transportasi</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Konsumsi</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-check check"></i>
-                            <span>Sewa sound system</span>
-                        </li>
-
-                        <li>
-                            <i class="fas fa-plus check"></i>
-                            <span>Bisa menambahkan bintang tamu</span>
-                        </li>
-
+                    <ul class="ticket-facilities">
+                        <li><i class="fas fa-check check"></i><span>Honor pemain dan kru</span></li>
+                        <li><i class="fas fa-check check"></i><span>Transportasi</span></li>
+                        <li><i class="fas fa-check check"></i><span>Konsumsi</span></li>
+                        <li><i class="fas fa-check check"></i><span>Sewa sound system</span></li>
+                        <li><i class="fas fa-plus check"></i><span>Bisa menambahkan bintang tamu</span></li>
                     </ul>
 
-                    <button
-                        type="button"
-                        class="package-select-btn"
-                        onclick="selectPackage('premium')"
-                    >
+                    <button type="button" class="ticket-btn" onclick="selectPackage('premium')">
                         Pilih Paket Premium
                     </button>
 
@@ -2267,14 +2460,7 @@ use Illuminate\Support\Str;
                         Pilih Paket
                     </h6>
 
-
-                    {{-- CLASSIC --}}
-
-                    <label
-                        class="package-option"
-                        id="option-classic"
-                    >
-
+                    <label class="package-option" id="option-classic">
                         <input
                             type="radio"
                             name="selected_package"
@@ -2282,69 +2468,40 @@ use Illuminate\Support\Str;
                             onchange="updatePackageCalculator()"
                             checked
                         >
-
                         <span class="package-option-title">
                             Classic
                         </span>
                     </label>
 
-
-                    {{-- PREMIUM --}}
-
-                    <label
-                        class="package-option"
-                        id="option-premium"
-                    >
-
+                    <label class="package-option" id="option-premium">
                         <input
                             type="radio"
                             name="selected_package"
                             value="premium"
                             onchange="updatePackageCalculator()"
                         >
-
                         <span class="package-option-title">
                             Premium
                         </span>
                     </label>
 
-
                     <h6 class="subheading mt-4 mb-2">
                         Tambahan
                     </h6>
 
-
-                    {{-- ADD ON BINTANG TAMU --}}
-
-                    <label
-                        class="addon-option"
-                        id="addon-star"
-                    >
-
+                    <label class="addon-option" id="addon-star">
                         <input
                             type="checkbox"
                             id="starAddon"
                             onchange="updatePackageCalculator()"
                         >
-
                         <span class="addon-text">
-
-                            <strong>
-                                Tambahkan Bintang Tamu
-                            </strong>
-
-                            <span>
-                                Khusus paket Premium · +Rp2.500.000
-                            </span>
-
+                            <strong>Tambahkan Bintang Tamu</strong>
+                            <span>Khusus paket Premium · +Rp2.500.000</span>
                         </span>
-
                     </label>
 
                 </div>
-
-
-                {{-- RINGKASAN --}}
 
                 <div class="col-lg-6">
 
@@ -2355,73 +2512,36 @@ use Illuminate\Support\Str;
                     <div class="order-summary">
 
                         <div class="summary-row">
-
-                            <span>
-                                Paket Terpilih
-                            </span>
-
-                            <strong id="summaryPackage">
-                                Classic
-                            </strong>
-
+                            <span>Paket Terpilih</span>
+                            <strong id="summaryPackage">Classic</strong>
                         </div>
-
 
                         <div class="summary-row">
-
-                            <span>
-                                Harga Paket
-                            </span>
-
-                            <span id="summaryPackagePrice">
-                                Rp7.000.000
-                            </span>
-
+                            <span>Harga Paket</span>
+                            <span id="summaryPackagePrice">Rp7.000.000</span>
                         </div>
-
 
                         <div class="summary-row">
-
-                            <span>
-                                Bintang Tamu
-                            </span>
-
-                            <span id="summaryAddon">
-                                Rp0
-                            </span>
-
+                            <span>Bintang Tamu</span>
+                            <span id="summaryAddon">Rp0</span>
                         </div>
-
 
                         <div class="summary-row total">
-
-                            <span>
-                                TOTAL
-                            </span>
-
-                            <span id="summaryTotal">
-                                Rp7.000.000
-                            </span>
-
+                            <span>TOTAL</span>
+                            <span id="summaryTotal">Rp7.000.000</span>
                         </div>
 
-
                         @if($contact?->phone)
-
-                            <a
+                            
                                 href="#"
                                 id="packageWhatsappButton"
                                 class="package-order-btn"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-
                                 <i class="fab fa-whatsapp"></i>
-
                                 Pesan Paket Ini
-
                             </a>
-
                         @endif
 
                     </div>
