@@ -1966,10 +1966,10 @@ use Illuminate\Support\Str;
                                 <button
                                     type="button"
                                     class="gallery-view-icon"
-                                    onclick='openGalleryLightbox(
-                                        @js(asset("storage/" . $gallery->image)),
+                                    onclick="openGalleryLightbox(
+                                        @js(asset('storage/' . $gallery->image)),
                                         @js($gallery->title)
-                                    )'
+                                    )"
                                     aria-label="Lihat foto {{ $gallery->title }}"
                                 >
                                     <i class="fas fa-expand"></i>
