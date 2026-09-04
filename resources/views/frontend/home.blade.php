@@ -2487,7 +2487,7 @@ use Illuminate\Support\Str;
             <div class="video-grid-new" id="videoGrid">
 
                 @foreach($videos as $video)
-                    
+                    <a
                         href="{{ $video->youtube_url }}"
                         target="_blank"
                         rel="noopener noreferrer"
