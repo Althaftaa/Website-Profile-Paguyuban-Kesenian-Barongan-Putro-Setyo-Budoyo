@@ -1015,17 +1015,10 @@ use Illuminate\Support\Str;
     }
 
     .video-grid-new {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-    }
-
-    @media (max-width: 991px) {
-        .video-grid-new { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    @media (max-width: 767px) {
-        .video-grid-new { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 18px;
     }
 
     .video-card-new {
@@ -1033,12 +1026,36 @@ use Illuminate\Support\Str;
         display: block;
         border-radius: 18px;
         overflow: hidden;
-        aspect-ratio: 3 / 4;
+        height: 260px;
         background: var(--brown);
         box-shadow: 0 10px 24px rgba(61,40,23,0.12);
         transition: transform .35s ease, opacity .3s ease, box-shadow .35s ease;
     }
 
+    /* YouTube: landscape, kartu jadi lebih lebar */
+    .video-card-new[data-platform="youtube"] {
+        aspect-ratio: 16 / 9;
+    }
+
+    /* TikTok & Instagram: portrait, kartu jadi lebih ramping */
+    .video-card-new[data-platform="tiktok"],
+    .video-card-new[data-platform="instagram"] {
+        aspect-ratio: 9 / 16;
+    }
+
+    @media (max-width: 991px) {
+        .video-card-new { height: 220px; }
+    }
+
+    @media (max-width: 575px) {
+        .video-grid-new { gap: 14px; }
+
+        .video-card-new {
+            height: auto;
+            flex: 1 1 100%;
+            width: 100%;
+        }
+    }
     .video-card-new.hidden-card {
         display: none;
     }
