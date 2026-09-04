@@ -963,7 +963,193 @@ use Illuminate\Support\Str;
         z-index: 2;
         line-height: 1.3;
     }
+    /* ==== VIDEO GALLERY - REDESIGN ==== */
+    .video-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 28px;
+    }
 
+    .video-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 18px;
+        border-radius: 30px;
+        border: 1.5px solid #e5dfd3;
+        background: #ffffff;
+        color: var(--text-muted);
+        font-size: 13px;
+        font-weight: 600;
+        transition: all .25s ease;
+    }
+
+    .video-tab i {
+        font-size: 13px;
+    }
+
+    .video-tab .count {
+        background: #f0ece1;
+        color: var(--text-muted);
+        border-radius: 20px;
+        padding: 1px 8px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .video-tab:hover {
+        border-color: var(--gold);
+        color: var(--gold-dark);
+    }
+
+    .video-tab.active {
+        background: var(--brown);
+        border-color: var(--brown);
+        color: #ffffff;
+    }
+
+    .video-tab.active .count {
+        background: rgba(255,255,255,0.18);
+        color: #ffffff;
+    }
+
+    .video-grid-new {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    @media (max-width: 991px) {
+        .video-grid-new { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 767px) {
+        .video-grid-new { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    }
+
+    .video-card-new {
+        position: relative;
+        display: block;
+        border-radius: 18px;
+        overflow: hidden;
+        aspect-ratio: 3 / 4;
+        background: var(--brown);
+        box-shadow: 0 10px 24px rgba(61,40,23,0.12);
+        transition: transform .35s ease, opacity .3s ease, box-shadow .35s ease;
+    }
+
+    .video-card-new.hidden-card {
+        display: none;
+    }
+
+    .video-card-new:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 36px rgba(61,40,23,0.2);
+    }
+
+    .video-card-new img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .5s ease;
+    }
+
+    .video-card-new:hover img {
+        transform: scale(1.08);
+    }
+
+    .video-card-new .video-fallback {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--brown);
+    }
+
+    .video-card-new .video-fallback i {
+        font-size: 40px;
+        color: rgba(255,255,255,0.5);
+    }
+
+    .video-card-new::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, rgba(20,12,6,0.85) 0%, rgba(20,12,6,0.05) 55%);
+    }
+
+    .video-card-new .platform-badge-new {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: #ffffff;
+        font-size: 10.5px;
+        font-weight: 700;
+        padding: 5px 11px;
+        border-radius: 20px;
+        letter-spacing: .3px;
+    }
+
+    .video-card-new[data-platform="youtube"] .platform-badge-new { background: linear-gradient(120deg,#ff0000,#c40000); }
+    .video-card-new[data-platform="tiktok"] .platform-badge-new { background: #000000; }
+    .video-card-new[data-platform="instagram"] .platform-badge-new { background: linear-gradient(135deg,#feda75,#d62976,#4f5bd5); }
+
+    .video-card-new .play-btn-new {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%) scale(0.85);
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.18);
+        border: 1.5px solid rgba(255,255,255,0.85);
+        backdrop-filter: blur(3px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 16px;
+        z-index: 2;
+        opacity: 0.85;
+        transition: all .3s ease;
+    }
+
+    .video-card-new:hover .play-btn-new {
+        transform: translate(-50%,-50%) scale(1.08);
+        background: var(--gold);
+        border-color: var(--gold);
+        opacity: 1;
+    }
+
+    .video-card-new .video-label-new {
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        z-index: 2;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .video-empty-new {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-muted);
+    }
     /* JADWAL */
 
     .jadwal-row {
@@ -2278,36 +2464,60 @@ use Illuminate\Support\Str;
 
         @if($videos->count())
 
-            <div class="row">
+            @php
+                $videoGroups = $videos->groupBy(fn($v) => Str::slug($v->platform_label));
+            @endphp
 
-                @foreach($videos as $video)
-                    <div class="col-lg-6 mb-4">
-                        <a
-                            href="{{ $video->youtube_url }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="video-card"
-                        >
-                            @if($video->thumbnail_url)
-                                <img
-                                    src="{{ $video->thumbnail_url }}"
-                                    alt="{{ $video->title }}"
-                                >
-                            @else
-                                <div class="video-fallback">
-                                    <i class="{{ $video->platform_icon }}"></i>
-                                </div>
-                            @endif
-                            <span class="platform-badge">
-                                <i class="{{ $video->platform_icon }}"></i>
-                                {{ $video->platform_label }}
-                            </span>
-                            <span class="play-btn"><i class="fas fa-play"></i></span>
-                            <span class="video-label">{{ $video->title }}</span>
-                        </a>
-                    </div>
+            <div class="video-tabs" id="videoTabs">
+
+                <button type="button" class="video-tab active" data-filter="all">
+                    <i class="fas fa-layer-group"></i> Semua
+                    <span class="count">{{ $videos->count() }}</span>
+                </button>
+
+                @foreach($videoGroups as $slug => $group)
+                    <button type="button" class="video-tab" data-filter="{{ $slug }}">
+                        <i class="{{ $group->first()->platform_icon }}"></i> {{ $group->first()->platform_label }}
+                        <span class="count">{{ $group->count() }}</span>
+                    </button>
                 @endforeach
 
+            </div>
+
+            <div class="video-grid-new" id="videoGrid">
+
+                @foreach($videos as $video)
+                    
+                        href="{{ $video->youtube_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="video-card-new"
+                        data-platform="{{ Str::slug($video->platform_label) }}"
+                    >
+                        @if($video->thumbnail_url)
+                            <img src="{{ $video->thumbnail_url }}" alt="{{ $video->title }}" loading="lazy">
+                        @else
+                            <div class="video-fallback">
+                                <i class="{{ $video->platform_icon }}"></i>
+                            </div>
+                        @endif
+
+                        <span class="platform-badge-new">
+                            <i class="{{ $video->platform_icon }}"></i>
+                            {{ $video->platform_label }}
+                        </span>
+
+                        <span class="play-btn-new"><i class="fas fa-play"></i></span>
+
+                        <span class="video-label-new">{{ $video->title }}</span>
+                    </a>
+                @endforeach
+
+            </div>
+
+            <div class="video-empty-new" id="videoEmptyState" style="display:none;">
+                <i class="fab fa-youtube fa-2x mb-2"></i>
+                <p class="mb-0">Belum ada video untuk kategori ini.</p>
             </div>
 
         @else
@@ -2585,7 +2795,7 @@ use Illuminate\Support\Str;
             <span class="jadwal-eyebrow">Agenda Kami</span>
             <h2 class="section-eyebrow" style="margin-bottom:8px;">Jadwal Pertunjukan</h2>
             <p class="section-sub" style="margin-bottom:0;">
-                Informasi jadwal pertunjukan Kelompok Seni Barongan Putro Setyo Budoyo
+                Informasi jadwal pertunjukan Paguyuban Seni Barongan Putro Setyo Budoyo
             </p>
         </div>
 
@@ -3260,6 +3470,39 @@ document.addEventListener(
 
     }
 );
+
+/* ==== FILTER VIDEO BY PLATFORM ==== */
+document.addEventListener('DOMContentLoaded', function () {
+
+    const tabs = document.querySelectorAll('#videoTabs .video-tab');
+    const cards = document.querySelectorAll('#videoGrid .video-card-new');
+    const emptyState = document.getElementById('videoEmptyState');
+
+    if (!tabs.length || !cards.length) return;
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const filter = tab.getAttribute('data-filter');
+            let visibleCount = 0;
+
+            cards.forEach(function (card) {
+                const match = filter === 'all' || card.getAttribute('data-platform') === filter;
+                card.classList.toggle('hidden-card', !match);
+                if (match) visibleCount++;
+            });
+
+            if (emptyState) {
+                emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+        });
+    });
+
+});
 </script>
 
 @endpush
