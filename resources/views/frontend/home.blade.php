@@ -1015,10 +1015,17 @@ use Illuminate\Support\Str;
     }
 
     .video-grid-new {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        gap: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    @media (max-width: 767px) {
+        .video-grid-new { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    }
+
+    @media (max-width: 480px) {
+        .video-grid-new { grid-template-columns: 1fr; }
     }
 
     .video-card-new {
@@ -1026,35 +1033,21 @@ use Illuminate\Support\Str;
         display: block;
         border-radius: 18px;
         overflow: hidden;
-        height: 260px;
+        width: 100%;
         background: var(--brown);
         box-shadow: 0 10px 24px rgba(61,40,23,0.12);
         transition: transform .35s ease, opacity .3s ease, box-shadow .35s ease;
     }
 
-    /* YouTube: landscape, kartu jadi lebih lebar */
+    /* YouTube: landscape */
     .video-card-new[data-platform="youtube"] {
         aspect-ratio: 16 / 9;
     }
 
-    /* TikTok & Instagram: portrait, kartu jadi lebih ramping */
+    /* TikTok & Instagram: portrait */
     .video-card-new[data-platform="tiktok"],
     .video-card-new[data-platform="instagram"] {
         aspect-ratio: 9 / 16;
-    }
-
-    @media (max-width: 991px) {
-        .video-card-new { height: 220px; }
-    }
-
-    @media (max-width: 575px) {
-        .video-grid-new { gap: 14px; }
-
-        .video-card-new {
-            height: auto;
-            flex: 1 1 100%;
-            width: 100%;
-        }
     }
     .video-card-new.hidden-card {
         display: none;
@@ -1245,13 +1238,16 @@ use Illuminate\Support\Str;
 
     /* Kartu unggulan (video pertama) */
     .video-card-new.featured {
-        height: 380px;
+        grid-column: span 2;
+        aspect-ratio: 21 / 9;
     }
 
     @media (max-width: 767px) {
-        .video-card-new.featured { height: 300px; }
+        .video-card-new.featured {
+            grid-column: span 1;
+            aspect-ratio: 16 / 9;
+        }
     }
-
     .video-card-new.featured .video-label-new {
         opacity: 1;
         font-size: 16px;
@@ -2597,7 +2593,12 @@ use Illuminate\Support\Str;
         @if($videos->count())
 
             @php
-                $videoGroups = $videos->groupBy(fn($v) => Str::slug($v->platform_label));
+                $platformOrder = ['youtube' => 0, 'tiktok' => 1, 'instagram' => 2];
+
+                $videoGroups = $videos
+                    ->groupBy(fn($v) => Str::slug($v->platform_label))
+                    ->sortBy(fn($group, $slug) => $platformOrder[$slug] ?? 99);
+
                 $defaultSlug = $videoGroups->keys()->first();
             @endphp
 
