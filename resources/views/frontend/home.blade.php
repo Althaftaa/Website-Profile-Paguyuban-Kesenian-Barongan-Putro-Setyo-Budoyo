@@ -1167,6 +1167,121 @@ use Illuminate\Support\Str;
         padding: 40px 20px;
         color: var(--text-muted);
     }
+
+    /* ==== VIDEO SECTION HEADER ==== */
+    .video-section-header {
+        text-align: center;
+        max-width: 560px;
+        margin: 0 auto 30px;
+    }
+
+    .video-eyebrow {
+        display: inline-block;
+        color: var(--gold-dark);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .video-section-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 27px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    .video-section-header h3 span {
+        color: var(--gold-dark);
+    }
+
+    .video-section-header p {
+        color: var(--text-muted);
+        font-size: 13.5px;
+        margin: 0;
+    }
+
+    /* Tab di tengah */
+    .video-tabs {
+        justify-content: center;
+    }
+
+    /* ==== GRID BENTO ==== */
+    @keyframes videoFadeUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .video-card-new {
+        animation: videoFadeUp .5s ease both;
+    }
+
+    .video-card-new:nth-child(2) { animation-delay: .05s; }
+    .video-card-new:nth-child(3) { animation-delay: .1s; }
+    .video-card-new:nth-child(4) { animation-delay: .15s; }
+    .video-card-new:nth-child(5) { animation-delay: .2s; }
+    .video-card-new:nth-child(6) { animation-delay: .25s; }
+
+    /* Aksen garis warna platform di atas kartu */
+    .video-card-new::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        z-index: 3;
+        opacity: 0;
+        transition: opacity .3s ease;
+    }
+
+    .video-card-new[data-platform="youtube"]::before { background: linear-gradient(90deg,#ff0000,#ff5b5b); }
+    .video-card-new[data-platform="tiktok"]::before { background: linear-gradient(90deg,#111,#555); }
+    .video-card-new[data-platform="instagram"]::before { background: linear-gradient(90deg,#feda75,#d62976,#4f5bd5); }
+
+    .video-card-new:hover::before {
+        opacity: 1;
+    }
+
+    /* Kartu unggulan (video pertama) */
+    .video-card-new.featured {
+        height: 380px;
+    }
+
+    @media (max-width: 767px) {
+        .video-card-new.featured { height: 300px; }
+    }
+
+    .video-card-new.featured .video-label-new {
+        opacity: 1;
+        font-size: 16px;
+    }
+
+    .video-card-new.featured::after {
+        background: linear-gradient(0deg, rgba(20,12,6,0.9) 0%, rgba(20,12,6,0.15) 60%);
+    }
+
+    .video-card-new.featured .play-btn-new {
+        width: 64px;
+        height: 64px;
+        font-size: 20px;
+        opacity: 1;
+    }
+
+    /* Play button jadi berdenyut supaya tidak statis */
+    .play-btn-new::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255,255,255,0.7);
+        animation: playPulse 2s ease-out infinite;
+    }
+
+    @keyframes playPulse {
+        0% { transform: scale(1); opacity: .8; }
+        100% { transform: scale(1.6); opacity: 0; }
+    }    
     /* JADWAL */
 
     .jadwal-row {
@@ -2483,17 +2598,23 @@ use Illuminate\Support\Str;
 
             @php
                 $videoGroups = $videos->groupBy(fn($v) => Str::slug($v->platform_label));
+                $defaultSlug = $videoGroups->keys()->first();
             @endphp
+
+            <div class="video-section-header">
+                <span class="video-eyebrow">Dokumentasi Digital</span>
+                <h3>Kumpulan Video, <span>Rekam Jejak Setiap Pementasan</span></h3>
+                <p>Saksikan momen-momen terbaik Barongan Putro Setyo Budoyo dari berbagai platform.</p>
+            </div>
 
             <div class="video-tabs" id="videoTabs">
 
-                <button type="button" class="video-tab active" data-filter="all">
-                    <i class="fas fa-layer-group"></i> Semua
-                    <span class="count">{{ $videos->count() }}</span>
-                </button>
-
                 @foreach($videoGroups as $slug => $group)
-                    <button type="button" class="video-tab" data-filter="{{ $slug }}">
+                    <button
+                        type="button"
+                        class="video-tab {{ $slug === $defaultSlug ? 'active' : '' }}"
+                        data-filter="{{ $slug }}"
+                    >
                         <i class="{{ $group->first()->platform_icon }}"></i> {{ $group->first()->platform_label }}
                         <span class="count">{{ $group->count() }}</span>
                     </button>
@@ -2508,7 +2629,7 @@ use Illuminate\Support\Str;
                         href="{{ $video->youtube_url }}"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="video-card-new"
+                        class="video-card-new {{ $loop->first ? 'featured' : '' }} {{ Str::slug($video->platform_label) !== $defaultSlug ? 'hidden-card' : '' }}"
                         data-platform="{{ Str::slug($video->platform_label) }}"
                     >
                         @if($video->thumbnail_url)
