@@ -885,6 +885,79 @@ use Illuminate\Support\Str;
             }
 
         }
+    /* ==== GALERI - HEADER & BACKGROUND REDESIGN ==== */
+    #galeri.section {
+        position: relative;
+        overflow: hidden;
+        background:
+            radial-gradient(circle at 15% 20%, rgba(201,151,46,0.05) 0%, transparent 45%),
+            radial-gradient(circle at 85% 75%, rgba(201,151,46,0.05) 0%, transparent 45%),
+            #f4f0e7;
+    }
+
+    #galeri.section::before {
+        content: "";
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        border: 2px dashed rgba(201,151,46,0.18);
+        top: -90px;
+        right: -70px;
+    }
+
+    #galeri.section::after {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(61,40,23,0.04);
+        bottom: 40px;
+        left: -80px;
+    }
+
+    .galeri-header {
+        position: relative;
+        z-index: 1;
+        max-width: 600px;
+        margin: 0 auto 50px;
+        text-align: center;
+    }
+
+    .galeri-eyebrow {
+        display: inline-block;
+        color: var(--gold-dark);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .galeri-header h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1.25;
+        color: var(--text-dark);
+        margin-bottom: 14px;
+    }
+
+    .galeri-header h2 span {
+        color: var(--gold-dark);
+    }
+
+    .galeri-header p {
+        color: var(--text-muted);
+        font-size: 14.5px;
+        margin: 0;
+    }
+
+    #galeri .container {
+        position: relative;
+        z-index: 1;
+    }
     .video-card {
         position: relative;
         border-radius: 14px;
@@ -2536,13 +2609,18 @@ use Illuminate\Support\Str;
 
 {{-- GALERI (FOTO + VIDEO) --}}
 
-<section id="galeri" class="section" style="background:#f4f0e7;">
+<section id="galeri" class="section">
 
     <div class="container">
 
-        <h2 class="section-eyebrow">Galeri</h2>
-        <p class="section-sub">Dokumentasi kegiatan dan pertunjukan Kelompok Seni Barongan</p>
-
+        <div class="galeri-header">
+            <span class="galeri-eyebrow">Jejak Visual Kami</span>
+            <h2>Setiap Momen, <span>Setiap Cerita Pertunjukan</span></h2>
+            <p>
+                Kumpulan foto dan video dokumentasi kegiatan serta pertunjukan
+                Kelompok Seni Barongan Putro Setyo Budoyo.
+            </p>
+        </div>
         <p class="subheading">Foto</p>
 
         @if($galleries->count())
