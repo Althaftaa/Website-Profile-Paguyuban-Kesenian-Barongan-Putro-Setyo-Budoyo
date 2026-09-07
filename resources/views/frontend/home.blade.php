@@ -1765,6 +1765,8 @@ use Illuminate\Support\Str;
         color: var(--text-muted);
         line-height: 1.6;
         padding-top: 5px;
+        overflow-wrap: break-word;
+        word-break: break-word;
     }
 
     .footer-contact-item strong {
@@ -1773,31 +1775,70 @@ use Illuminate\Support\Str;
         font-size: 13.5px;
     }
 
+    .footer-social-label {
+        display: inline-block;
+        color: var(--gold-dark);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
     footer .footer-social {
         display: flex;
-        gap: 10px;
+        flex-wrap: wrap;
+        gap: 18px;
         margin-bottom: 24px;
     }
 
-    footer .footer-social a {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        border: 1.5px solid var(--gold);
-        color: var(--gold-dark);
-        display: inline-flex;
+    .footer-social-item {
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        transition: all .25s ease;
+        text-align: center;
+        width: 76px;
+        transition: transform .25s ease;
     }
 
-    footer .footer-social a:hover {
-        background: var(--gold);
-        color: #ffffff;
+    .footer-social-item:hover {
         transform: translateY(-3px);
     }
 
+    .footer-social-item .icon-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1.5px solid var(--gold);
+        color: var(--gold-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        margin-bottom: 8px;
+        transition: all .25s ease;
+    }
+
+    .footer-social-item:hover .icon-circle {
+        background: var(--gold);
+        color: #ffffff;
+    }
+
+    .footer-social-item .platform-name {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 1px;
+    }
+
+    .footer-social-item .platform-username {
+        font-size: 10px;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
     .footer-map-card {
         border-radius: 14px;
         overflow: hidden;
@@ -3399,24 +3440,42 @@ use Illuminate\Support\Str;
                         <span>{{ $contact->address }}</span>
                     </div>
                 @endif
-
                 @if($contact?->instagram || $contact?->facebook || $contact?->youtube || $contact?->tiktok)
+
+                    <span class="footer-social-label">Ikuti Sosial Media Kami:</span>
+
                     <div class="footer-social">
 
                         @if($contact?->instagram)
-                            <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                            <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer" class="footer-social-item">
+                                <span class="icon-circle"><i class="fab fa-instagram"></i></span>
+                                <span class="platform-name">Instagram</span>
+                                <span class="platform-username">@putrosetyobudoyo</span>
+                            </a>
                         @endif
 
                         @if($contact?->facebook)
-                            <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer" class="footer-social-item">
+                                <span class="icon-circle"><i class="fab fa-facebook-f"></i></span>
+                                <span class="platform-name">Facebook</span>
+                                <span class="platform-username">Putro Setyo Budoyo</span>
+                            </a>
                         @endif
 
                         @if($contact?->youtube)
-                            <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                            <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer" class="footer-social-item">
+                                <span class="icon-circle"><i class="fab fa-youtube"></i></span>
+                                <span class="platform-name">YouTube</span>
+                                <span class="platform-username">Putro Setyo Budoyo</span>
+                            </a>
                         @endif
 
                         @if($contact?->tiktok)
-                            <a href="{{ $contact->tiktok }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+                            <a href="{{ $contact->tiktok }}" target="_blank" rel="noopener noreferrer" class="footer-social-item">
+                                <span class="icon-circle"><i class="fab fa-tiktok"></i></span>
+                                <span class="platform-name">TikTok</span>
+                                <span class="platform-username">@putrosetyobudoyo</span>
+                            </a>
                         @endif
 
                     </div>
@@ -3438,7 +3497,7 @@ use Illuminate\Support\Str;
 
             </div>
 
-            <div class="col-lg-3 col-md-4">
+            <div class="col-lg-2 col-md-4">
                 <h5 class="footer-title">Navigasi Halaman</h5>
                 <ul>
                     <li><a href="#beranda"><i class="fas fa-chevron-right"></i> Beranda</a></li>
@@ -3450,7 +3509,7 @@ use Illuminate\Support\Str;
                 </ul>
             </div>
 
-            <div class="col-lg-2 col-md-4">
+            <div class="col-lg-3 col-md-4">
                 <h5 class="footer-title">Hubungi Kami</h5>
 
                 @if($contact?->phone)
