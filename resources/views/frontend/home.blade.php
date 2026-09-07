@@ -1612,24 +1612,86 @@ use Illuminate\Support\Str;
     .map-placeholder small {
         color: var(--text-muted);
     }
-
     /* FOOTER */
 
     footer {
-        background: #efece4;
-        color: var(--text-dark);
-        padding: 60px 0 24px;
+        position: relative;
+        background: #ffffff;
+        color: var(--text-muted);
+        padding: 70px 0 0;
+        border-top: 1px solid #eee7da;
     }
 
-    footer h5 {
-        font-size: 16px;
+    footer .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    .footer-brand img,
+    .footer-brand .brand-fallback {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .footer-brand .brand-fallback {
+        background: var(--cream);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold-dark);
+        font-size: 18px;
+        border: 1.5px solid var(--gold);
+    }
+
+    .footer-brand h5 {
+        font-family: 'Playfair Display', serif;
+        font-size: 17px;
         font-weight: 700;
-        margin-bottom: 16px;
+        color: var(--text-dark);
+        margin: 0 0 2px;
     }
 
-    footer p, footer a {
+    .footer-brand span {
+        font-size: 12.5px;
+        color: var(--text-muted);
+    }
+
+    footer h5.footer-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+        color: var(--text-dark);
+        margin-bottom: 18px;
+        position: relative;
+        padding-bottom: 12px;
+    }
+
+    footer h5.footer-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 30px;
+        height: 2px;
+        background: var(--gold);
+    }
+
+    footer p {
         color: var(--text-muted);
         font-size: 13.5px;
+        line-height: 1.8;
     }
 
     footer ul {
@@ -1639,37 +1701,160 @@ use Illuminate\Support\Str;
     }
 
     footer ul li {
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+    }
+
+    footer ul li a {
+        color: var(--text-muted);
+        font-size: 13.5px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all .25s ease;
+    }
+
+    footer ul li a i {
+        color: var(--gold-dark);
+        font-size: 11px;
     }
 
     footer ul li a:hover {
         color: var(--gold-dark);
+        padding-left: 2px;
+    }
+
+    .footer-address {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 13.5px;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 18px;
+    }
+
+    .footer-address i {
+        color: var(--gold-dark);
+        margin-top: 3px;
+        flex-shrink: 0;
+    }
+
+    .footer-contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .footer-contact-item i {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        border: 1px solid var(--gold);
+        color: var(--gold-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .footer-contact-item span {
+        font-size: 13.5px;
+        color: var(--text-muted);
+        line-height: 1.6;
+        padding-top: 5px;
+    }
+
+    .footer-contact-item strong {
+        display: block;
+        color: var(--text-dark);
+        font-size: 13.5px;
+    }
+
+    footer .footer-social {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
     }
 
     footer .footer-social a {
-        width: 34px;
-        height: 34px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
-        border: 1px solid #cfc9ba;
-        color: var(--text-dark);
+        border: 1.5px solid var(--gold);
+        color: var(--gold-dark);
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-right: 8px;
-        font-size: 13px;
+        font-size: 14px;
+        transition: all .25s ease;
+    }
+
+    footer .footer-social a:hover {
+        background: var(--gold);
+        color: #ffffff;
+        transform: translateY(-3px);
+    }
+
+    .footer-map-card {
+        border-radius: 14px;
+        overflow: hidden;
+        height: 160px;
+        position: relative;
+        background: var(--brown);
+        box-shadow: 0 8px 20px rgba(61,40,23,0.1);
+    }
+
+    .footer-map-card iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .footer-map-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255,255,255,0.7);
+        font-size: 12.5px;
+        text-align: center;
+        gap: 6px;
+    }
+
+    .footer-map-placeholder i {
+        font-size: 20px;
+        color: var(--gold);
     }
 
     footer hr {
-        border-color: #dcd6c8;
-        margin: 36px 0 20px;
+        border-color: #eee7da;
+        margin: 45px 0 0;
     }
-        .footer-credit {
-        margin-top: 26px;
+
+    .footer-bottom {
+        padding: 22px 0;
+        text-align: center;
+    }
+
+    .footer-bottom small {
+        color: var(--text-muted);
+        font-size: 12.5px;
+    }
+
+    .footer-credit {
+        margin-top: 22px;
+        padding-top: 22px;
+        border-top: 1px solid #eee7da;
     }
 
     .footer-credit p {
         color: var(--text-muted);
-        font-size: 12.5px;
+        font-size: 12px;
         line-height: 1.7;
         margin: 0 0 16px;
     }
@@ -1678,28 +1863,28 @@ use Illuminate\Support\Str;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
     }
 
     .footer-credit-logos img {
-        height: 56px;
-        width: 56px;
+        height: 46px;
+        width: 46px;
         object-fit: contain;
         border-radius: 50%;
         background: #ffffff;
-        padding: 6px;
-        box-shadow: 0 4px 12px rgba(61,40,23,0.08);
+        padding: 5px;
+        box-shadow: 0 4px 12px rgba(61,40,23,0.1);
         transition: transform .25s ease, box-shadow .25s ease;
     }
 
     .footer-credit-logos img:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 20px rgba(61,40,23,0.14);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 18px rgba(61,40,23,0.16);
     }
 
     @media (max-width: 575px) {
-        .footer-credit-logos { gap: 16px; }
-        .footer-credit-logos img { height: 44px; width: 44px; padding: 5px; }
+        .footer-credit-logos { gap: 10px; }
+        .footer-credit-logos img { height: 40px; width: 40px; padding: 4px; }
     }
     /* =========================================
     PAKET PEMENTASAN
@@ -2345,9 +2530,6 @@ use Illuminate\Support\Str;
                     <a class="nav-link" href="#berita">Berita</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#kontak">Kontak</a>
-                </li>
 
                 @if($contact?->phone)
                     <li class="nav-item ms-lg-3">
@@ -3189,204 +3371,60 @@ use Illuminate\Support\Str;
 
 </section>
 
+{{-- FOOTER --}}
 
-{{-- KONTAK & LOKASI --}}
-
-<section id="kontak" class="section bg-white">
+<footer id="kontak">
 
     <div class="container">
 
-        <h2 class="section-eyebrow">Kontak & Lokasi</h2>
-        <p class="section-sub">Hubungi kami untuk informasi pertunjukan maupun kerja sama</p>
+        <div class="row gy-5">
 
-        <div class="row g-5 align-items-start">
+            <div class="col-lg-4">
 
-            <div class="col-lg-6">
-
-                <h5 class="subheading">Hubungi Kami</h5>
-                <p class="text-muted mb-4">
-                    Untuk informasi lebih lanjut mengenai pertunjukan, kolaborasi, atau sekadar
-                    ingin mengenal kami lebih dekat, silakan hubungi kami melalui kontak di bawah ini.
-                </p>
+                <div class="footer-brand">
+                    @if($profile?->logo)
+                        <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo">
+                    @else
+                        <span class="brand-fallback"><i class="fas fa-mask"></i></span>
+                    @endif
+                    <div>
+                        <h5>{{ $profile?->name ?? 'Putro Setyo Budoyo' }}</h5>
+                        <span>Paguyuban Seni Barongan</span>
+                    </div>
+                </div>
 
                 @if($contact?->address)
-                    <div class="contact-item">
-                        <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
-                        <div>
-                            <strong>Alamat</strong>
-                            <span>{{ $contact->address }}</span>
-                        </div>
-                    </div>
-                @endif
-
-                @if($contact?->phone)
-                    <div class="contact-item">
-                        <span class="contact-icon"><i class="fas fa-phone"></i></span>
-                        <div>
-                            <strong>Telepon / WhatsApp</strong>
-                            <span>{{ $contact->phone }}</span>
-                        </div>
-                    </div>
-                @endif
-
-                @if($contact?->email)
-                    <div class="contact-item">
-                        <span class="contact-icon"><i class="fas fa-envelope"></i></span>
-                        <div>
-                            <strong>Email</strong>
-                            <span>{{ $contact->email }}</span>
-                        </div>
+                    <div class="footer-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ $contact->address }}</span>
                     </div>
                 @endif
 
                 @if($contact?->instagram || $contact?->facebook || $contact?->youtube || $contact?->tiktok)
+                    <div class="footer-social">
 
-                    <p class="subheading mt-4 mb-3" style="font-size:18px;">
-                        Ikuti Kami
-                    </p>
-
-                    <div class="social-row">
-
-                        {{-- INSTAGRAM --}}
                         @if($contact?->instagram)
-                            <a
-                                href="{{ $contact->instagram }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="social-item"
-                            >
-                                <span class="social-icon">
-                                    <i class="fab fa-instagram"></i>
-                                </span>
-
-                                <span class="social-platform">
-                                    Instagram
-                                </span>
-
-                                <span class="social-username">
-                                    @putrosetyobudoyo
-                                </span>
-                            </a>
+                            <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
                         @endif
 
-
-                        {{-- YOUTUBE --}}
-                        @if($contact?->youtube)
-                            <a
-                                href="{{ $contact->youtube }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="social-item"
-                            >
-                                <span class="social-icon">
-                                    <i class="fab fa-youtube"></i>
-                                </span>
-
-                                <span class="social-platform">
-                                    YouTube
-                                </span>
-
-                                <span class="social-username">
-                                    Putro Setyo Budoyo
-                                </span>
-                            </a>
-                        @endif
-
-
-                        {{-- TIKTOK --}}
-                        @if($contact?->tiktok)
-                            <a
-                                href="{{ $contact->tiktok }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="social-item"
-                            >
-                                <span class="social-icon">
-                                    <i class="fab fa-tiktok"></i>
-                                </span>
-
-                                <span class="social-platform">
-                                    TikTok
-                                </span>
-
-                                <span class="social-username">
-                                    @putrosetyobudoyo
-                                </span>
-                            </a>
-                        @endif
-
-
-                        {{-- FACEBOOK --}}
                         @if($contact?->facebook)
-                            <a
-                                href="{{ $contact->facebook }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="social-item"
-                            >
-                                <span class="social-icon">
-                                    <i class="fab fa-facebook-f"></i>
-                                </span>
+                            <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        @endif
 
-                                <span class="social-platform">
-                                    Facebook
-                                </span>
+                        @if($contact?->youtube)
+                            <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        @endif
 
-                                <span class="social-username">
-                                    Putro Setyo Budoyo
-                                </span>
-                            </a>
+                        @if($contact?->tiktok)
+                            <a href="{{ $contact->tiktok }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
                         @endif
 
                     </div>
-
                 @endif
-
-            </div>
-
-            <div class="col-lg-6">
-
-                <div class="map-card">
-
-                    @if($contact?->google_maps)
-                        {!! $contact->google_maps !!}
-                    @else
-                        <div class="map-placeholder">
-                            <i class="fas fa-map-location-dot"></i>
-                            <strong>Integrasi Google Maps</strong><br>
-                            <small>Peta lokasi markas/sanggar</small>
-                        </div>
-                    @endif
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-{{-- FOOTER --}}
-
-<footer>
-
-    <div class="container">
-
-        <div class="row gy-4">
-
-            <div class="col-lg-4">
-                <h5>{{ $profile?->name ?? 'Putro Setyo Budoyo' }}</h5>
-                <p>
-                    Media Informasi, Promosi, dan Pelestarian Budaya Jawa melalui
-                    seni pertunjukan Barongan yang autentik dan mendunia.
-                </p>
 
                 <div class="footer-credit">
                     <p>
-                        Website ini dihasilkan dari Program Kuliah Kerja Nyata (KKN)
+                        Website ini dihasilkan dari Program Desa Binaan Kemendiktisaintek UNDIP dan UNWAHAS
                         sebagai bentuk pengabdian kepada masyarakat.
                     </p>
                     <div class="footer-credit-logos">
@@ -3397,38 +3435,59 @@ use Illuminate\Support\Str;
                         <img src="{{ asset('images/logo-5.png') }}" alt="Logo Institusi 5">
                     </div>
                 </div>
+
             </div>
 
-            <div class="col-lg-4">
-                <h5>Tautan Cepat</h5>
+            <div class="col-lg-3 col-md-4">
+                <h5 class="footer-title">Navigasi Halaman</h5>
                 <ul>
-                    <li><a href="#beranda">Beranda</a></li>
-                    <li><a href="#tentang">Tentang Kami</a></li>
-                    <li><a href="#galeri">Galeri</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="#beranda"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                    <li><a href="#tentang"><i class="fas fa-chevron-right"></i> Tentang Kami</a></li>
+                    <li><a href="#galeri"><i class="fas fa-chevron-right"></i> Galeri</a></li>
+                    <li><a href="#paket"><i class="fas fa-chevron-right"></i> Paket Pementasan</a></li>
+                    <li><a href="#jadwal"><i class="fas fa-chevron-right"></i> Jadwal Pertunjukan</a></li>
+                    <li><a href="#berita"><i class="fas fa-chevron-right"></i> Berita & Kegiatan</a></li>
                 </ul>
             </div>
 
-            <div class="col-lg-4">
-                <h5>Sosial Media</h5>
-                <div class="footer-social mb-3">
+            <div class="col-lg-2 col-md-4">
+                <h5 class="footer-title">Hubungi Kami</h5>
 
-                    @if($contact?->instagram)
-                        <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                @if($contact?->phone)
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>{{ $contact->phone }}</span>
+                    </div>
+                @endif
+
+                @if($contact?->email)
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>{{ $contact->email }}</span>
+                    </div>
+                @endif
+
+                <div class="footer-contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>
+                        <strong>Jam Operasional:</strong>
+                        08.00 - 17.00 WIB (Setiap Hari)
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4">
+                <h5 class="footer-title">Peta Lokasi</h5>
+
+                <div class="footer-map-card">
+                    @if($contact?->google_maps)
+                        {!! $contact->google_maps !!}
+                    @else
+                        <div class="footer-map-placeholder">
+                            <i class="fas fa-map-location-dot"></i>
+                            Peta lokasi belum ditambahkan
+                        </div>
                     @endif
-
-                    @if($contact?->facebook)
-                        <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                    @endif
-
-                    @if($contact?->youtube)
-                        <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
-                    @endif
-
-                    @if($contact?->tiktok)
-                        <a href="{{ $contact->tiktok }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
-                    @endif
-
                 </div>
             </div>
 
@@ -3436,7 +3495,7 @@ use Illuminate\Support\Str;
 
         <hr>
 
-        <div class="text-center">
+        <div class="footer-bottom">
             <small>© {{ date('Y') }} {{ $profile?->name ?? 'Putro Setyo Budoyo' }}. Hak Cipta Dilindungi.</small>
         </div>
 
