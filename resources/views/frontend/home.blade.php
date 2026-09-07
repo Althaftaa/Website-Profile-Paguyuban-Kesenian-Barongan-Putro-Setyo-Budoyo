@@ -1663,6 +1663,44 @@ use Illuminate\Support\Str;
         border-color: #dcd6c8;
         margin: 36px 0 20px;
     }
+        .footer-credit {
+        margin-top: 26px;
+    }
+
+    .footer-credit p {
+        color: var(--text-muted);
+        font-size: 12.5px;
+        line-height: 1.7;
+        margin: 0 0 16px;
+    }
+
+    .footer-credit-logos {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .footer-credit-logos img {
+        height: 56px;
+        width: 56px;
+        object-fit: contain;
+        border-radius: 50%;
+        background: #ffffff;
+        padding: 6px;
+        box-shadow: 0 4px 12px rgba(61,40,23,0.08);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .footer-credit-logos img:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(61,40,23,0.14);
+    }
+
+    @media (max-width: 575px) {
+        .footer-credit-logos { gap: 16px; }
+        .footer-credit-logos img { height: 44px; width: 44px; padding: 5px; }
+    }
     /* =========================================
     PAKET PEMENTASAN
     ========================================= */
@@ -3341,10 +3379,24 @@ use Illuminate\Support\Str;
 
             <div class="col-lg-4">
                 <h5>{{ $profile?->name ?? 'Putro Setyo Budoyo' }}</h5>
-                <p class="mb-0">
+                <p>
                     Media Informasi, Promosi, dan Pelestarian Budaya Jawa melalui
                     seni pertunjukan Barongan yang autentik dan mendunia.
                 </p>
+
+                <div class="footer-credit">
+                    <p>
+                        Website ini dihasilkan dari Program Kuliah Kerja Nyata (KKN)
+                        sebagai bentuk pengabdian kepada masyarakat.
+                    </p>
+                    <div class="footer-credit-logos">
+                        <img src="{{ asset('images/logo-1.png') }}" alt="Logo Institusi 1">
+                        <img src="{{ asset('images/logo-2.png') }}" alt="Logo Institusi 2">
+                        <img src="{{ asset('images/logo-3.png') }}" alt="Logo Institusi 3">
+                        <img src="{{ asset('images/logo-4.png') }}" alt="Logo Institusi 4">
+                        <img src="{{ asset('images/logo-5.png') }}" alt="Logo Institusi 5">
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-4">
